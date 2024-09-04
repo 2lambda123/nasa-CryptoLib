@@ -25,7 +25,7 @@ clean:
 debug:
 	./support/scripts/docker_debug.sh
 
-internal: 
+internal:
 	./support/scripts/internal_docker_build.sh
 
 kmc:
