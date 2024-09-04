@@ -6,7 +6,7 @@
 #  ./build_kmc.sh
 #
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 source "$SCRIPT_DIR"/env.sh
 
 rm "$BASE_DIR"/CMakeCache.txt
