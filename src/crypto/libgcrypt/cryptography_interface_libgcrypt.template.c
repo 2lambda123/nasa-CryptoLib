@@ -26,50 +26,50 @@ static int32_t cryptography_init(void);
 static int32_t cryptography_shutdown(void);
 // Cryptography Interface Functions
 static int32_t cryptography_encrypt(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr,
-                                         uint8_t* iv, uint32_t iv_len,uint8_t* ecs, uint8_t padding, char* cam_cookies);
+                                    uint8_t* data_in, size_t len_data_in,
+                                    uint8_t* key, uint32_t len_key,
+                                    SecurityAssociation_t* sa_ptr,
+                                    uint8_t* iv, uint32_t iv_len,uint8_t* ecs, uint8_t padding, char* cam_cookies);
 static int32_t cryptography_decrypt(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr, 
-                                         uint8_t* iv, uint32_t iv_len,
-                                         uint8_t* ecs, uint8_t* acs, char* cam_cookies);
+                                    uint8_t* data_in, size_t len_data_in,
+                                    uint8_t* key, uint32_t len_key,
+                                    SecurityAssociation_t* sa_ptr,
+                                    uint8_t* iv, uint32_t iv_len,
+                                    uint8_t* ecs, uint8_t* acs, char* cam_cookies);
 static int32_t cryptography_authenticate(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr,
-                                         uint8_t* iv, uint32_t iv_len,
-                                         uint8_t* mac, uint32_t mac_size,
-                                         uint8_t* aad, uint32_t aad_len,
-                                         uint8_t ecs, uint8_t acs, char* cam_cookies);
+        uint8_t* data_in, size_t len_data_in,
+        uint8_t* key, uint32_t len_key,
+        SecurityAssociation_t* sa_ptr,
+        uint8_t* iv, uint32_t iv_len,
+        uint8_t* mac, uint32_t mac_size,
+        uint8_t* aad, uint32_t aad_len,
+        uint8_t ecs, uint8_t acs, char* cam_cookies);
 static int32_t cryptography_validate_authentication(uint8_t* data_out, size_t len_data_out,
-                                         const uint8_t* data_in, const size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr,
-                                         const uint8_t* iv, uint32_t iv_len,
-                                         const uint8_t* mac, uint32_t mac_size,
-                                         const uint8_t* aad, uint32_t aad_len,
-                                         uint8_t ecs, uint8_t acs, char* cam_cookies);
+        const uint8_t* data_in, const size_t len_data_in,
+        uint8_t* key, uint32_t len_key,
+        SecurityAssociation_t* sa_ptr,
+        const uint8_t* iv, uint32_t iv_len,
+        const uint8_t* mac, uint32_t mac_size,
+        const uint8_t* aad, uint32_t aad_len,
+        uint8_t ecs, uint8_t acs, char* cam_cookies);
 static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr,
-                                         uint8_t* iv, uint32_t iv_len,
-                                         uint8_t* mac, uint32_t mac_size,
-                                         uint8_t* aad, uint32_t aad_len,
-                                         uint8_t encrypt_bool, uint8_t authenticate_bool,
-                                         uint8_t aad_bool, uint8_t* ecs, uint8_t* acs, char* cam_cookies);
+        uint8_t* data_in, size_t len_data_in,
+        uint8_t* key, uint32_t len_key,
+        SecurityAssociation_t* sa_ptr,
+        uint8_t* iv, uint32_t iv_len,
+        uint8_t* mac, uint32_t mac_size,
+        uint8_t* aad, uint32_t aad_len,
+        uint8_t encrypt_bool, uint8_t authenticate_bool,
+        uint8_t aad_bool, uint8_t* ecs, uint8_t* acs, char* cam_cookies);
 static int32_t cryptography_aead_decrypt(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr,
-                                         uint8_t* iv, uint32_t iv_len,
-                                         uint8_t* mac, uint32_t mac_size,
-                                         uint8_t* aad, uint32_t aad_len,
-                                         uint8_t decrypt_bool, uint8_t authenticate_bool,
-                                         uint8_t aad_bool, uint8_t* ecs, uint8_t* acs, char* cam_cookies);
+        uint8_t* data_in, size_t len_data_in,
+        uint8_t* key, uint32_t len_key,
+        SecurityAssociation_t* sa_ptr,
+        uint8_t* iv, uint32_t iv_len,
+        uint8_t* mac, uint32_t mac_size,
+        uint8_t* aad, uint32_t aad_len,
+        uint8_t decrypt_bool, uint8_t authenticate_bool,
+        uint8_t aad_bool, uint8_t* ecs, uint8_t* acs, char* cam_cookies);
 static int32_t cryptography_get_acs_algo(int8_t algo_enum);
 static int32_t cryptography_get_ecs_algo(int8_t algo_enum);
 static int32_t cryptography_get_ecs_mode(int8_t algo_enum);
@@ -119,17 +119,19 @@ static int32_t cryptography_init(void)
 
     return status;
 }
-static int32_t cryptography_shutdown(void){ return CRYPTO_LIB_SUCCESS; }
+static int32_t cryptography_shutdown(void) {
+    return CRYPTO_LIB_SUCCESS;
+}
 
 static int32_t cryptography_authenticate(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr, // For key index or key references (when key not passed in explicitly via key param)
-                                         uint8_t* iv, uint32_t iv_len,
-                                         uint8_t* mac, uint32_t mac_size,
-                                         uint8_t* aad, uint32_t aad_len,
-                                         uint8_t ecs, uint8_t acs, char* cam_cookies)
-{ 
+        uint8_t* data_in, size_t len_data_in,
+        uint8_t* key, uint32_t len_key,
+        SecurityAssociation_t* sa_ptr, // For key index or key references (when key not passed in explicitly via key param)
+        uint8_t* iv, uint32_t iv_len,
+        uint8_t* mac, uint32_t mac_size,
+        uint8_t* aad, uint32_t aad_len,
+        uint8_t ecs, uint8_t acs, char* cam_cookies)
+{
     gcry_error_t gcry_error = GPG_ERR_NO_ERROR;
     gcry_mac_hd_t tmp_mac_hd;
     int32_t status = CRYPTO_LIB_SUCCESS;
@@ -167,7 +169,7 @@ static int32_t cryptography_authenticate(uint8_t* data_out, size_t len_data_out,
         return status;
     }
     gcry_error = gcry_mac_setkey(tmp_mac_hd, key_ptr, len_key);
-    
+
 #ifdef SA_DEBUG
     uint32_t i;
     printf(KYEL "Auth MAC Printing Key:\n\t");
@@ -203,11 +205,11 @@ static int32_t cryptography_authenticate(uint8_t* data_out, size_t len_data_out,
     gcry_error = gcry_mac_write(tmp_mac_hd,
                                 aad,    // additional authenticated data
                                 aad_len // length of AAD
-    );
+                               );
     if ((gcry_error & GPG_ERR_CODE_MASK) != GPG_ERR_NO_ERROR)
     {
         printf(KRED "ERROR: gcry_mac_write error code %d\n" RESET,
-                gcry_error & GPG_ERR_CODE_MASK);
+               gcry_error & GPG_ERR_CODE_MASK);
         printf(KRED "Failure: %s/%s\n", gcry_strsource(gcry_error), gcry_strerror(gcry_error));
         status = CRYPTO_LIB_ERROR;
         gcry_mac_close(tmp_mac_hd);
@@ -218,7 +220,7 @@ static int32_t cryptography_authenticate(uint8_t* data_out, size_t len_data_out,
     gcry_error = gcry_mac_read(tmp_mac_hd,
                                mac,      // tag output
                                (size_t* )tmac_size // tag size
-    );
+                              );
     if ((gcry_error & GPG_ERR_CODE_MASK) != GPG_ERR_NO_ERROR)
     {
         printf(KRED "ERROR: gcry_mac_read error code %d\n" RESET, gcry_error & GPG_ERR_CODE_MASK);
@@ -230,17 +232,17 @@ static int32_t cryptography_authenticate(uint8_t* data_out, size_t len_data_out,
 
     // Zeroise any sensitive information
     gcry_mac_close(tmp_mac_hd);
-    return status; 
+    return status;
 }
 static int32_t cryptography_validate_authentication(uint8_t* data_out, size_t len_data_out,
-                                                    const uint8_t* data_in, const size_t len_data_in,
-                                                    uint8_t* key, uint32_t len_key,
-                                                    SecurityAssociation_t* sa_ptr,
-                                                    const uint8_t* iv, uint32_t iv_len,
-                                                    const uint8_t* mac, uint32_t mac_size,
-                                                    const uint8_t* aad, uint32_t aad_len,
-                                                    uint8_t ecs, uint8_t acs, char* cam_cookies)
-{ 
+        const uint8_t* data_in, const size_t len_data_in,
+        uint8_t* key, uint32_t len_key,
+        SecurityAssociation_t* sa_ptr,
+        const uint8_t* iv, uint32_t iv_len,
+        const uint8_t* mac, uint32_t mac_size,
+        const uint8_t* aad, uint32_t aad_len,
+        uint8_t ecs, uint8_t acs, char* cam_cookies)
+{
     gcry_error_t gcry_error = GPG_ERR_NO_ERROR;
     gcry_mac_hd_t tmp_mac_hd;
     int32_t status = CRYPTO_LIB_SUCCESS;
@@ -315,11 +317,11 @@ static int32_t cryptography_validate_authentication(uint8_t* data_out, size_t le
     gcry_error = gcry_mac_write(tmp_mac_hd,
                                 aad,    // additional authenticated data
                                 aad_len // length of AAD
-    );
+                               );
     if ((gcry_error & GPG_ERR_CODE_MASK) != GPG_ERR_NO_ERROR)
     {
         printf(KRED "ERROR: gcry_mac_write error code %d\n" RESET,
-                gcry_error & GPG_ERR_CODE_MASK);
+               gcry_error & GPG_ERR_CODE_MASK);
         printf(KRED "Failure: %s/%s\n" RESET, gcry_strsource(gcry_error), gcry_strerror(gcry_error));
         gcry_mac_close(tmp_mac_hd);
         status = CRYPTO_LIB_ERROR;
@@ -332,7 +334,7 @@ static int32_t cryptography_validate_authentication(uint8_t* data_out, size_t le
     gcry_error = gcry_mac_read(tmp_mac_hd,
                                tmac,      // tag output
                                (size_t *)tmac_size // tag size
-    );
+                              );
     if ((gcry_error & GPG_ERR_CODE_MASK) != GPG_ERR_NO_ERROR)
     {
         printf(KRED "ERROR: gcry_mac_read error code %d\n" RESET, gcry_error & GPG_ERR_CODE_MASK);
@@ -342,18 +344,18 @@ static int32_t cryptography_validate_authentication(uint8_t* data_out, size_t le
 
     printf("Calculated Mac Size: %d\n", *tmac_size);
     printf("Calculated MAC (full length):\n\t");
-    for (uint32_t i = 0; i < *tmac_size; i ++){
+    for (uint32_t i = 0; i < *tmac_size; i ++) {
         printf("%02X", tmac[i]);
     }
     printf("\nCalculated MAC (truncated to sa_ptr->stmacf_len):\n\t");
-    for (uint32_t i = 0; i < mac_size; i ++){
+    for (uint32_t i = 0; i < mac_size; i ++) {
         printf("%02X", tmac[i]);
     }
     printf("\n");
     if (!tmac) free(tmac);
 
     printf("Received MAC:\n\t");
-    for (uint32_t i = 0; i < mac_size; i ++){
+    for (uint32_t i = 0; i < mac_size; i ++) {
         printf("%02X", mac[i]);
     }
     printf("\n");
@@ -363,7 +365,7 @@ static int32_t cryptography_validate_authentication(uint8_t* data_out, size_t le
     gcry_error = gcry_mac_verify(tmp_mac_hd,
                                  mac,      // original mac
                                  (size_t)mac_size // tag size
-    );
+                                );
     if ((gcry_error & GPG_ERR_CODE_MASK) != GPG_ERR_NO_ERROR)
     {
         printf(KRED "ERROR: gcry_mac_verify error code %d\n" RESET, gcry_error & GPG_ERR_CODE_MASK);
@@ -381,14 +383,14 @@ static int32_t cryptography_validate_authentication(uint8_t* data_out, size_t le
     // Zeroise any sensitive information
     gcry_mac_reset(tmp_mac_hd);
     gcry_mac_close(tmp_mac_hd);
-    return status; 
+    return status;
 }
 
 static int32_t cryptography_encrypt(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr,
-                                         uint8_t* iv, uint32_t iv_len,uint8_t* ecs, uint8_t padding, char* cam_cookies)
+                                    uint8_t* data_in, size_t len_data_in,
+                                    uint8_t* key, uint32_t len_key,
+                                    SecurityAssociation_t* sa_ptr,
+                                    uint8_t* iv, uint32_t iv_len,uint8_t* ecs, uint8_t padding, char* cam_cookies)
 {
     gcry_error_t gcry_error = GPG_ERR_NO_ERROR;
     gcry_cipher_hd_t tmp_hd;
@@ -529,7 +531,7 @@ int32_t cryptography_verify_ecs_enum_algo(uint8_t* ecs, int32_t* algo, int32_t* 
 
     // Verify the mode to accompany the ecs enum
     *mode = cryptography_get_ecs_mode(*ecs);
-    if (*mode == CRYPTO_LIB_ERR_UNSUPPORTED_ECS_MODE) 
+    if (*mode == CRYPTO_LIB_ERR_UNSUPPORTED_ECS_MODE)
     {
         status = CRYPTO_LIB_ERR_UNSUPPORTED_ECS_MODE;
         return status;
@@ -548,7 +550,7 @@ int32_t cryptography_gcry_setup(int32_t mode, int32_t algo, gcry_cipher_hd_t* tm
     else
     {
         *gcry_error = gcry_cipher_open(tmp_hd, algo, mode, GCRY_CIPHER_NONE);
-    } 
+    }
     if ((*gcry_error & GPG_ERR_CODE_MASK) != GPG_ERR_NO_ERROR)
     {
         printf(KRED "ERROR: gcry_cipher_open error code %d\n" RESET, *gcry_error & GPG_ERR_CODE_MASK);
@@ -588,14 +590,14 @@ int32_t cryptography_gcry_setup(int32_t mode, int32_t algo, gcry_cipher_hd_t* tm
 }
 
 static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr, // For key index or key references (when key not passed in explicitly via key param)
-                                         uint8_t* iv, uint32_t iv_len,
-                                         uint8_t* mac, uint32_t mac_size,
-                                         uint8_t* aad, uint32_t aad_len,
-                                         uint8_t encrypt_bool, uint8_t authenticate_bool,
-                                         uint8_t aad_bool, uint8_t* ecs, uint8_t* acs, char* cam_cookies)
+        uint8_t* data_in, size_t len_data_in,
+        uint8_t* key, uint32_t len_key,
+        SecurityAssociation_t* sa_ptr, // For key index or key references (when key not passed in explicitly via key param)
+        uint8_t* iv, uint32_t iv_len,
+        uint8_t* mac, uint32_t mac_size,
+        uint8_t* aad, uint32_t aad_len,
+        uint8_t encrypt_bool, uint8_t authenticate_bool,
+        uint8_t aad_bool, uint8_t* ecs, uint8_t* acs, char* cam_cookies)
 {
     gcry_error_t gcry_error = GPG_ERR_NO_ERROR;
     gcry_cipher_hd_t tmp_hd = 0;
@@ -615,15 +617,15 @@ static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
     if(status != CRYPTO_LIB_SUCCESS)
     {
         mc_if->mc_log(status);
-        return status;   
+        return status;
     }
-   
+
     // TODO: Get Flag Functionality
     status = cryptography_gcry_setup(mode, algo, &tmp_hd, key_ptr, len_key, iv, iv_len, &gcry_error);
     if(status != CRYPTO_LIB_SUCCESS)
     {
         mc_if->mc_log(status);
-        return status;   
+        return status;
     }
 
 #ifdef DEBUG
@@ -642,7 +644,7 @@ static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
         gcry_error = gcry_cipher_authenticate(tmp_hd,
                                               aad,      // additional authenticated data
                                               aad_len // length of AAD
-        );
+                                             );
         if ((gcry_error & GPG_ERR_CODE_MASK) != GPG_ERR_NO_ERROR)
         {
             printf(KRED "ERROR: gcry_cipher_authenticate error code %d\n" RESET,
@@ -664,7 +666,7 @@ static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
                                          len_data_out,                // length of data
                                          data_in, // plaintext input
                                          len_data_in                 // in data length
-        );
+                                        );
     }
     else // AEAD authenticate only
     {
@@ -673,7 +675,7 @@ static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
                                          0,                // length of data
                                          NULL, // plaintext input
                                          0                 // in data length
-        );
+                                        );
     }
     if ((gcry_error & GPG_ERR_CODE_MASK) != GPG_ERR_NO_ERROR)
     {
@@ -699,7 +701,7 @@ static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
         gcry_error = gcry_cipher_gettag(tmp_hd,
                                         mac,  // tag output
                                         mac_size // tag size
-        );
+                                       );
         if ((gcry_error & GPG_ERR_CODE_MASK) != GPG_ERR_NO_ERROR)
         {
             printf(KRED "ERROR: gcry_cipher_checktag error code %d\n" RESET,
@@ -726,17 +728,17 @@ static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
 }
 
 static int32_t cryptography_decrypt(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr, 
-                                         uint8_t* iv, uint32_t iv_len,
-                                         uint8_t* ecs, uint8_t* acs, char* cam_cookies)
+                                    uint8_t* data_in, size_t len_data_in,
+                                    uint8_t* key, uint32_t len_key,
+                                    SecurityAssociation_t* sa_ptr,
+                                    uint8_t* iv, uint32_t iv_len,
+                                    uint8_t* ecs, uint8_t* acs, char* cam_cookies)
 {
     gcry_cipher_hd_t tmp_hd;
     gcry_error_t gcry_error = GPG_ERR_NO_ERROR;
     int32_t status = CRYPTO_LIB_SUCCESS;
     uint8_t* key_ptr = key;
-    
+
     // Fix warnings
     acs = acs;
     cam_cookies = cam_cookies;
@@ -764,7 +766,7 @@ static int32_t cryptography_decrypt(uint8_t* data_out, size_t len_data_out,
     if (mode == CRYPTO_LIB_ERR_UNSUPPORTED_MODE)
     {
         return CRYPTO_LIB_ERR_UNSUPPORTED_MODE;
-    } 
+    }
 
     gcry_error = gcry_cipher_open(&(tmp_hd), algo, mode, GCRY_CIPHER_NONE);
     if ((gcry_error & GPG_ERR_CODE_MASK) != GPG_ERR_NO_ERROR)
@@ -795,11 +797,11 @@ static int32_t cryptography_decrypt(uint8_t* data_out, size_t len_data_out,
     }
 
     gcry_error = gcry_cipher_decrypt(tmp_hd,
-                                         data_out,      // plaintext output
-                                         len_data_out,  // length of data
-                                         data_in,       // in place decryption
-                                         len_data_in    // in data length
-    );
+                                     data_out,      // plaintext output
+                                     len_data_out,  // length of data
+                                     data_in,       // in place decryption
+                                     len_data_in    // in data length
+                                    );
     if ((gcry_error & GPG_ERR_CODE_MASK) != GPG_ERR_NO_ERROR)
     {
         printf(KRED "ERROR: gcry_cipher_decrypt error code %d\n" RESET, gcry_error & GPG_ERR_CODE_MASK);
@@ -815,20 +817,20 @@ static int32_t cryptography_decrypt(uint8_t* data_out, size_t len_data_out,
 }
 
 static int32_t cryptography_aead_decrypt(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr,
-                                         uint8_t* iv, uint32_t iv_len,
-                                         uint8_t* mac, uint32_t mac_size,
-                                         uint8_t* aad, uint32_t aad_len,
-                                         uint8_t decrypt_bool, uint8_t authenticate_bool,
-                                         uint8_t aad_bool, uint8_t* ecs, uint8_t* acs, char* cam_cookies)
+        uint8_t* data_in, size_t len_data_in,
+        uint8_t* key, uint32_t len_key,
+        SecurityAssociation_t* sa_ptr,
+        uint8_t* iv, uint32_t iv_len,
+        uint8_t* mac, uint32_t mac_size,
+        uint8_t* aad, uint32_t aad_len,
+        uint8_t decrypt_bool, uint8_t authenticate_bool,
+        uint8_t aad_bool, uint8_t* ecs, uint8_t* acs, char* cam_cookies)
 {
     gcry_cipher_hd_t tmp_hd;
     gcry_error_t gcry_error = GPG_ERR_NO_ERROR;
     int32_t status = CRYPTO_LIB_SUCCESS;
     uint8_t* key_ptr = key;
-    
+
     // Fix warnings
     acs = acs;
     cam_cookies = cam_cookies;
@@ -890,13 +892,13 @@ static int32_t cryptography_aead_decrypt(uint8_t* data_out, size_t len_data_out,
         status = CRYPTO_LIB_ERR_LIBGCRYPT_ERROR;
         return status;
     }
-    
+
     if (aad_bool == CRYPTO_TRUE)
     {
         gcry_error = gcry_cipher_authenticate(tmp_hd,
                                               aad,    // additional authenticated data
                                               aad_len // length of AAD
-        );
+                                             );
         if ((gcry_error & GPG_ERR_CODE_MASK) != GPG_ERR_NO_ERROR)
         {
             printf(KRED "ERROR: gcry_cipher_authenticate error code %d\n" RESET, gcry_error & GPG_ERR_CODE_MASK);
@@ -918,7 +920,7 @@ static int32_t cryptography_aead_decrypt(uint8_t* data_out, size_t len_data_out,
                                          len_data_out,  // length of data
                                          data_in,       // in place decryption
                                          len_data_in    // in data length
-        );
+                                        );
         if ((gcry_error & GPG_ERR_CODE_MASK) != GPG_ERR_NO_ERROR)
         {
             printf(KRED "ERROR: gcry_cipher_decrypt error code %d\n" RESET, gcry_error & GPG_ERR_CODE_MASK);
@@ -947,11 +949,11 @@ static int32_t cryptography_aead_decrypt(uint8_t* data_out, size_t len_data_out,
 
     if (authenticate_bool == CRYPTO_TRUE)
     {
-/*
-** *** !!!WARNING!!! 
-** *** This Debug block cannot be enabled during normal use, gettag fundamentally changes the
-** *** gettag output
-*/
+        /*
+        ** *** !!!WARNING!!!
+        ** *** This Debug block cannot be enabled during normal use, gettag fundamentally changes the
+        ** *** gettag output
+        */
 // #ifdef MAC_DEBUG
 //         printf("Received MAC is: \n\t0x:");
 //         for (uint32_t i =0; i<mac_size; i++)
@@ -970,13 +972,13 @@ static int32_t cryptography_aead_decrypt(uint8_t* data_out, size_t len_data_out,
 //             printf("%02X", mac[i]);
 //         }
 // #endif
-/*
-** *** End debug block
-*/
+        /*
+        ** *** End debug block
+        */
         gcry_error = gcry_cipher_checktag(tmp_hd,
                                           mac,       // tag input
                                           mac_size   // tag size
-        );
+                                         );
 
         if ((gcry_error & GPG_ERR_CODE_MASK) != GPG_ERR_NO_ERROR)
         {
@@ -993,7 +995,7 @@ static int32_t cryptography_aead_decrypt(uint8_t* data_out, size_t len_data_out,
 }
 
 /**
- * @brief Function: cryptography_get_acs_algo. Maps Cryptolib ACS enums to libgcrypt enums 
+ * @brief Function: cryptography_get_acs_algo. Maps Cryptolib ACS enums to libgcrypt enums
  * It is possible for supported algos to vary between crypto libraries
  * @param algo_enum
  **/
@@ -1002,28 +1004,28 @@ int32_t cryptography_get_acs_algo(int8_t algo_enum)
     int32_t algo = CRYPTO_LIB_ERR_UNSUPPORTED_ACS; // All valid algos will be positive
     switch (algo_enum)
     {
-        case CRYPTO_MAC_CMAC_AES256:
-            algo = GCRY_MAC_CMAC_AES;
-            break;
-        case CRYPTO_MAC_HMAC_SHA256:
-            algo = GCRY_MAC_HMAC_SHA256;
-            break;
-        case CRYPTO_MAC_HMAC_SHA512:
-            algo = GCRY_MAC_HMAC_SHA512;
-            break;
+    case CRYPTO_MAC_CMAC_AES256:
+        algo = GCRY_MAC_CMAC_AES;
+        break;
+    case CRYPTO_MAC_HMAC_SHA256:
+        algo = GCRY_MAC_HMAC_SHA256;
+        break;
+    case CRYPTO_MAC_HMAC_SHA512:
+        algo = GCRY_MAC_HMAC_SHA512;
+        break;
 
-        default:
+    default:
 #ifdef DEBUG
-            printf("ACS Algo Enum not supported\n");
+        printf("ACS Algo Enum not supported\n");
 #endif
-            break;
+        break;
     }
 
     return (int)algo;
 }
 
 /**
- * @brief Function: cryptography_get_ecs_algo. Maps Cryptolib ECS enums to libgcrypt enums 
+ * @brief Function: cryptography_get_ecs_algo. Maps Cryptolib ECS enums to libgcrypt enums
  * It is possible for supported algos to vary between crypto libraries
  * @param algo_enum
  **/
@@ -1032,31 +1034,31 @@ int32_t cryptography_get_ecs_algo(int8_t algo_enum)
     int32_t algo = CRYPTO_LIB_ERR_UNSUPPORTED_ECS; // All valid algos will be positive
     switch (algo_enum)
     {
-        case CRYPTO_CIPHER_AES256_GCM:
-            algo = GCRY_CIPHER_AES256;
-            break;
-        case CRYPTO_CIPHER_AES256_GCM_SIV:
-            algo = GCRY_CIPHER_AES256;
-            break;
-        case CRYPTO_CIPHER_AES256_CBC:
-            algo = GCRY_CIPHER_AES256;
-            break;
-        case CRYPTO_CIPHER_AES256_CCM:
-            algo = GCRY_CIPHER_AES256;
-            break;
+    case CRYPTO_CIPHER_AES256_GCM:
+        algo = GCRY_CIPHER_AES256;
+        break;
+    case CRYPTO_CIPHER_AES256_GCM_SIV:
+        algo = GCRY_CIPHER_AES256;
+        break;
+    case CRYPTO_CIPHER_AES256_CBC:
+        algo = GCRY_CIPHER_AES256;
+        break;
+    case CRYPTO_CIPHER_AES256_CCM:
+        algo = GCRY_CIPHER_AES256;
+        break;
 
-        default:
+    default:
 #ifdef DEBUG
-            printf("Algo Enum not supported\n");
+        printf("Algo Enum not supported\n");
 #endif
-            break;
+        break;
     }
 
     return (int)algo;
 }
 
 /**
- * @brief Function: cryptography_get_ecs_mode. Maps Cryptolib ECS enums to libgcrypt enums 
+ * @brief Function: cryptography_get_ecs_mode. Maps Cryptolib ECS enums to libgcrypt enums
  * It is possible for supported algos to vary between crypto libraries
  * @param algo_enum
  **/
@@ -1065,27 +1067,27 @@ int32_t cryptography_get_ecs_mode(int8_t algo_enum)
     int32_t mode = CRYPTO_LIB_ERR_UNSUPPORTED_ECS_MODE; // All valid algos will be positive
     switch (algo_enum)
     {
-        case CRYPTO_CIPHER_AES256_GCM:
-            mode = GCRY_CIPHER_MODE_GCM;
-            break;
-        case CRYPTO_CIPHER_AES256_GCM_SIV:
-            mode = GCRY_CIPHER_MODE_GCM_SIV;
-            break;
-        case CRYPTO_CIPHER_AES256_CBC:
-            mode = GCRY_CIPHER_MODE_CBC;
-            break;
-        case CRYPTO_CIPHER_AES256_CBC_MAC:
-            mode = GCRY_CIPHER_MODE_CBC;
-            break;
-        case CRYPTO_CIPHER_AES256_CCM:
-            mode = GCRY_CIPHER_MODE_CCM;
-            break;
+    case CRYPTO_CIPHER_AES256_GCM:
+        mode = GCRY_CIPHER_MODE_GCM;
+        break;
+    case CRYPTO_CIPHER_AES256_GCM_SIV:
+        mode = GCRY_CIPHER_MODE_GCM_SIV;
+        break;
+    case CRYPTO_CIPHER_AES256_CBC:
+        mode = GCRY_CIPHER_MODE_CBC;
+        break;
+    case CRYPTO_CIPHER_AES256_CBC_MAC:
+        mode = GCRY_CIPHER_MODE_CBC;
+        break;
+    case CRYPTO_CIPHER_AES256_CCM:
+        mode = GCRY_CIPHER_MODE_CCM;
+        break;
 
-        default:
+    default:
 #ifdef DEBUG
-            printf("ECS Mode Enum not supported\n");
+        printf("ECS Mode Enum not supported\n");
 #endif
-            break;
+        break;
     }
 
     return (int)mode;

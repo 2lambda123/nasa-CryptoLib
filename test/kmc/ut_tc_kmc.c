@@ -37,14 +37,14 @@
 
 /**
  * @brief Error Function for MDB_DB_RESET
- * 
- * @param con 
+ *
+ * @param con
  */
 void finish_with_error(MYSQL *con)
 {
-  fprintf(stderr, "%s\n", mysql_error(con));
-  mysql_close(con);
-  exit(1);
+    fprintf(stderr, "%s\n", mysql_error(con));
+    mysql_close(con);
+    exit(1);
 }
 
 void reload_db(void)
@@ -64,54 +64,54 @@ void MDB_DB_RESET()
 {
     MYSQL *con = mysql_init(NULL);
     if(sa_mariadb_config->mysql_mtls_key != NULL)
-            {
-                mysql_optionsv(con, MYSQL_OPT_SSL_KEY, sa_mariadb_config->mysql_mtls_key);
-            }
-            if(sa_mariadb_config->mysql_mtls_cert != NULL)
-            {
-                mysql_optionsv(con, MYSQL_OPT_SSL_CERT, sa_mariadb_config->mysql_mtls_cert);
-            }
-            if(sa_mariadb_config->mysql_mtls_ca != NULL)
-            {
-                mysql_optionsv(con, MYSQL_OPT_SSL_CA, sa_mariadb_config->mysql_mtls_ca);
-            }
-            if(sa_mariadb_config->mysql_mtls_capath != NULL)
-            {
-                mysql_optionsv(con, MYSQL_OPT_SSL_CAPATH, sa_mariadb_config->mysql_mtls_capath);
-            }
-            if (sa_mariadb_config->mysql_tls_verify_server != CRYPTO_FALSE)
-            {
-                mysql_optionsv(con, MYSQL_OPT_SSL_VERIFY_SERVER_CERT, &(sa_mariadb_config->mysql_tls_verify_server));
-            }
-            if (sa_mariadb_config->mysql_mtls_client_key_password != NULL)
-            {
-                mysql_optionsv(con, MARIADB_OPT_TLS_PASSPHRASE, sa_mariadb_config->mysql_mtls_client_key_password);
-            }
-            if (sa_mariadb_config->mysql_require_secure_transport == CRYPTO_TRUE)
-            {
-                mysql_optionsv(con, MYSQL_OPT_SSL_ENFORCE,&(sa_mariadb_config->mysql_require_secure_transport));
-            }
-            //if encrypted connection (TLS) connection. No need for SSL Key
-            if (mysql_real_connect(con, sa_mariadb_config->mysql_hostname,
-                    sa_mariadb_config->mysql_username,
-                    sa_mariadb_config->mysql_password,
-                    sa_mariadb_config->mysql_database,
-                    sa_mariadb_config->mysql_port, NULL, 0) == NULL)
-            {
-                //0,NULL,0 are port number, unix socket, client flag
-                finish_with_error(con);
-            }
+    {
+        mysql_optionsv(con, MYSQL_OPT_SSL_KEY, sa_mariadb_config->mysql_mtls_key);
+    }
+    if(sa_mariadb_config->mysql_mtls_cert != NULL)
+    {
+        mysql_optionsv(con, MYSQL_OPT_SSL_CERT, sa_mariadb_config->mysql_mtls_cert);
+    }
+    if(sa_mariadb_config->mysql_mtls_ca != NULL)
+    {
+        mysql_optionsv(con, MYSQL_OPT_SSL_CA, sa_mariadb_config->mysql_mtls_ca);
+    }
+    if(sa_mariadb_config->mysql_mtls_capath != NULL)
+    {
+        mysql_optionsv(con, MYSQL_OPT_SSL_CAPATH, sa_mariadb_config->mysql_mtls_capath);
+    }
+    if (sa_mariadb_config->mysql_tls_verify_server != CRYPTO_FALSE)
+    {
+        mysql_optionsv(con, MYSQL_OPT_SSL_VERIFY_SERVER_CERT, &(sa_mariadb_config->mysql_tls_verify_server));
+    }
+    if (sa_mariadb_config->mysql_mtls_client_key_password != NULL)
+    {
+        mysql_optionsv(con, MARIADB_OPT_TLS_PASSPHRASE, sa_mariadb_config->mysql_mtls_client_key_password);
+    }
+    if (sa_mariadb_config->mysql_require_secure_transport == CRYPTO_TRUE)
+    {
+        mysql_optionsv(con, MYSQL_OPT_SSL_ENFORCE,&(sa_mariadb_config->mysql_require_secure_transport));
+    }
+    //if encrypted connection (TLS) connection. No need for SSL Key
+    if (mysql_real_connect(con, sa_mariadb_config->mysql_hostname,
+                           sa_mariadb_config->mysql_username,
+                           sa_mariadb_config->mysql_password,
+                           sa_mariadb_config->mysql_database,
+                           sa_mariadb_config->mysql_port, NULL, 0) == NULL)
+    {
+        //0,NULL,0 are port number, unix socket, client flag
+        finish_with_error(con);
+    }
 
     printf("Truncating Tables\n");
     char* query = "TRUNCATE TABLE security_associations\n";
     if (mysql_real_query(con, query, strlen(query)))
-    { // query should be NUL terminated!
+    {   // query should be NUL terminated!
         printf("Failed to Truncate Table\n");
         finish_with_error(con);
     }
     query = "INSERT INTO security_associations (spi,ekid,sa_state,ecs,est,ast,shivf_len,iv_len,stmacf_len,iv,abm_len,abm,arsnw,arsn_len,tfvn,scid,vcid,mapid,ecs_len, shplf_len) VALUES (11,'kmc/test/key130',3,X'02',1,0,16,16,0,X'00000000000000000000000000000001',1024,X'00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',5,0,0,3,0,0,1,1)";
     if (mysql_real_query(con, query, strlen(query)))
-    { // query should be NUL terminated!
+    {   // query should be NUL terminated!
         printf("Failed to re-create security_association table for SPI 11\n");
         finish_with_error(con);
     }
@@ -125,19 +125,19 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 {
     reload_db();
     // Setup & Initialize CryptoLib
-    Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+    Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
                             IV_CRYPTO_MODULE, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_TRUE, TC_HAS_PUS_HDR,
                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
     Crypto_Config_MariaDB(KMC_HOSTNAME,"sadb", 3306,CRYPTO_TRUE,CRYPTO_TRUE, CA_PATH, NULL, CLIENT_CERTIFICATE, CLIENT_CERTIFICATE_KEY, NULL, "root", "changeit");
     Crypto_Config_Kmc_Crypto_Service("https", "itc-kmc.nasa.gov", 8443, "crypto-service","/certs/ammos-ca-bundle.crt",NULL, CRYPTO_TRUE, CLIENT_CERTIFICATE, "PEM", CLIENT_CERTIFICATE_KEY, NULL, NULL);
-    GvcidManagedParameters_t TC_UT_Managed_Parameters0 = {0, 0x0003, 0, TC_HAS_FECF, AOS_FHEC_NA, AOS_IZ_NA, 0, TC_HAS_SEGMENT_HDRS, 1024, AOS_NO_OCF, 1};  
+    GvcidManagedParameters_t TC_UT_Managed_Parameters0 = {0, 0x0003, 0, TC_HAS_FECF, AOS_FHEC_NA, AOS_IZ_NA, 0, TC_HAS_SEGMENT_HDRS, 1024, AOS_NO_OCF, 1};
     Crypto_Config_Add_Gvcid_Managed_Parameters(TC_UT_Managed_Parameters0);
-    GvcidManagedParameters_t TC_UT_Managed_Parameters1 = {0, 0x0003, 1, TC_HAS_FECF, AOS_FHEC_NA, AOS_IZ_NA, 0, TC_HAS_SEGMENT_HDRS, 1024, AOS_NO_OCF, 1};  
+    GvcidManagedParameters_t TC_UT_Managed_Parameters1 = {0, 0x0003, 1, TC_HAS_FECF, AOS_FHEC_NA, AOS_IZ_NA, 0, TC_HAS_SEGMENT_HDRS, 1024, AOS_NO_OCF, 1};
     Crypto_Config_Add_Gvcid_Managed_Parameters(TC_UT_Managed_Parameters1);
-    GvcidManagedParameters_t TC_UT_Managed_Parameters2 = {0, 0x0003, 2, TC_HAS_FECF, AOS_FHEC_NA, AOS_IZ_NA, 0, TC_HAS_SEGMENT_HDRS, 1024, AOS_NO_OCF, 1};  
+    GvcidManagedParameters_t TC_UT_Managed_Parameters2 = {0, 0x0003, 2, TC_HAS_FECF, AOS_FHEC_NA, AOS_IZ_NA, 0, TC_HAS_SEGMENT_HDRS, 1024, AOS_NO_OCF, 1};
     Crypto_Config_Add_Gvcid_Managed_Parameters(TC_UT_Managed_Parameters2);
-    GvcidManagedParameters_t TC_UT_Managed_Parameters3 = {0, 0x0003, 3, TC_HAS_FECF, AOS_FHEC_NA, AOS_IZ_NA, 0, TC_HAS_SEGMENT_HDRS, 1024, AOS_NO_OCF, 1};  
+    GvcidManagedParameters_t TC_UT_Managed_Parameters3 = {0, 0x0003, 3, TC_HAS_FECF, AOS_FHEC_NA, AOS_IZ_NA, 0, TC_HAS_SEGMENT_HDRS, 1024, AOS_NO_OCF, 1};
     Crypto_Config_Add_Gvcid_Managed_Parameters(TC_UT_Managed_Parameters3);
     // Crypto_Config_Add_Gvcid_Managed_Parameter(0, 0x0003, 0, TC_HAS_FECF, TC_HAS_SEGMENT_HDRS, 1024, AOS_FHEC_NA, AOS_IZ_NA, 0);
     // Crypto_Config_Add_Gvcid_Managed_Parameter(0, 0x0003, 1, TC_HAS_FECF, TC_HAS_SEGMENT_HDRS, 1024, AOS_FHEC_NA, AOS_IZ_NA, 0);
@@ -195,7 +195,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 // UTEST(TC_APPLY_SECURITY, ENC_CBC_KMC_1BP)
 // {
 //     // Setup & Initialize CryptoLib
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_TRUE, TC_HAS_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -255,7 +255,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 // UTEST(TC_APPLY_SECURITY, ENC_CBC_KMC_16BP)
 // {
 //     // Setup & Initialize CryptoLib
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_TRUE, TC_HAS_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -311,13 +311,13 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 
 // /**
 //  * @brief Unit Test: Nominal Encryption CBC KMC
-//  *                      Frame is max size for this test.  Any encrypted data of length greater than 1007 bytes, 
+//  *                      Frame is max size for this test.  Any encrypted data of length greater than 1007 bytes,
 //  *                      will cause frame length exception.
 //  **/
 // UTEST(TC_APPLY_SECURITY, ENC_CBC_KMC_FRAME_MAX)
 // {
 //     // Setup & Initialize CryptoLib
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_TRUE, TC_HAS_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -359,13 +359,13 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 
 // /**
 //  * @brief Unit Test: Encryption CBC KMC
-//  *                      Frame is 1 byte too large for this test.  Any encrypted data of length greater than 1007 bytes, 
+//  *                      Frame is 1 byte too large for this test.  Any encrypted data of length greater than 1007 bytes,
 //  *                      will cause frame length exception.
 //  **/
 // UTEST(TC_APPLY_SECURITY, ENC_CBC_KMC_FRAME_TOO_BIG)
 // {
 //     // Setup & Initialize CryptoLib
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_TRUE, TC_HAS_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -411,7 +411,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 // UTEST(TC_APPLY_SECURITY, ENC_CBC_KMC_NULL_IV)
 // {
 //     // Setup & Initialize CryptoLib
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_CRYPTO_MODULE, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_TRUE, TC_HAS_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -422,7 +422,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 //     Crypto_Config_Add_Gvcid_Managed_Parameter(0, 0x0003, 3, TC_HAS_FECF, TC_HAS_SEGMENT_HDRS, 1024, AOS_FHEC_NA, AOS_IZ_NA, 0);
 //     int32_t return_val = Crypto_Init();
 //     ASSERT_EQ(CRYPTO_LIB_SUCCESS, return_val);
-    
+
 //     char* raw_tc_sdls_ping_h = "20030015000080d2c70008197f0b00310000b1fe3128";
 //     char* raw_tc_sdls_ping_b = NULL;
 //     int raw_tc_sdls_ping_len = 0;
@@ -464,7 +464,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 // UTEST(TC_APPLY_SECURITY, ENC_GCM_KMC_NULL_IV)
 // {
 //     // Setup & Initialize CryptoLib
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_TRUE, TC_HAS_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -518,7 +518,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 // UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_MDB_KMC)
 // {
 //     // Setup & Initialize CryptoLib
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_TRUE, TC_HAS_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -543,7 +543,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 //         Crypto_TC_ApplySecurity((uint8_t* )raw_tc_sdls_ping_b, raw_tc_sdls_ping_len, &ptr_enc_frame, &enc_frame_len);
 
 //     ASSERT_EQ(CRYPTO_LIB_SUCCESS, return_val);
-    
+
 //     Crypto_Shutdown();
 //     free(raw_tc_sdls_ping_b);
 //     free(ptr_enc_frame);
@@ -555,7 +555,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 // UTEST(TC_APPLY_SECURITY, ENC_CBC_MDB_KMC_1BP)
 // {
 //     // Setup & Initialize CryptoLib
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_TRUE, TC_HAS_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -603,7 +603,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 // UTEST(TC_APPLY_SECURITY, ENC_CBC_MDB_KMC_16BP)
 // {
 //     // Setup & Initialize CryptoLib
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_TRUE, TC_HAS_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -646,13 +646,13 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 
 // /**
 //  * @brief Unit Test: Nominal Encryption CBC MDB KMC
-//  *                      Frame is max size for this test.  Any encrypted data of length greater than 1007 bytes, 
+//  *                      Frame is max size for this test.  Any encrypted data of length greater than 1007 bytes,
 //  *                      will cause frame length exception.
 //  **/
 // UTEST(TC_APPLY_SECURITY, ENC_CBC_MDB_KMC_FRAME_MAX)
 // {
 //     // Setup & Initialize CryptoLib
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_TRUE, TC_HAS_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -692,13 +692,13 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 
 // /**
 //  * @brief Unit Test: Encryption CBC MDB KMC
-//  *                      Frame is 1 byte too large for this test.  Any encrypted data of length greater than 1007 bytes, 
+//  *                      Frame is 1 byte too large for this test.  Any encrypted data of length greater than 1007 bytes,
 //  *                      will cause frame length exception.
 //  **/
 // UTEST(TC_APPLY_SECURITY, ENC_CBC_MDB_KMC_FRAME_TOO_BIG)
 // {
 //     // Setup & Initialize CryptoLib
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_TRUE, TC_HAS_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -745,7 +745,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 // UTEST(TC_APPLY_SECURITY, ENC_CBC_MDB_KMC_NULL_IV)
 // {
 //     // Setup & Initialize CryptoLib
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_CRYPTO_MODULE, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_TRUE, TC_HAS_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -783,7 +783,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 //  **/
 // UTEST(TC_PROCESS, HAPPY_PATH_DECRYPT_CBC_KMC)
 // {
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_FALSE, TC_NO_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -816,9 +816,9 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 
 //     // Convert input test frame
 //     hex_conversion(test_frame_pt_h, (char**) &test_frame_pt_b, &test_frame_pt_len);
-    
+
 //     status = Crypto_TC_ProcessSecurity(test_frame_pt_b, &test_frame_pt_len, tc_sdls_processed_frame);
-    
+
 //     char* truth_data_h = "80d2c70008197f0b00310000b1fe";
 //     uint8_t* truth_data_b = NULL;
 //     int truth_data_l = 0;
@@ -834,7 +834,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 
 //     ASSERT_EQ(CRYPTO_LIB_SUCCESS, status);
 //     free(test_frame_pt_b);
-//     Crypto_Shutdown();       
+//     Crypto_Shutdown();
 // }
 
 // /**
@@ -842,7 +842,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 //  **/
 // UTEST(TC_PROCESS, DECRYPT_CBC_KMC_1B)
 // {
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_FALSE, TC_NO_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -875,9 +875,9 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 
 //     // Convert input test frame
 //     hex_conversion(test_frame_pt_h, (char**) &test_frame_pt_b, &test_frame_pt_len);
-    
+
 //     status = Crypto_TC_ProcessSecurity(test_frame_pt_b, &test_frame_pt_len, tc_sdls_processed_frame);
-    
+
 //     char* truth_data_h = "80d2c70008197f0b0031000000b1fe";
 //     uint8_t* truth_data_b = NULL;
 //     int truth_data_l = 0;
@@ -893,7 +893,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 
 //     ASSERT_EQ(CRYPTO_LIB_SUCCESS, status);
 //     free(test_frame_pt_b);
-//     Crypto_Shutdown();       
+//     Crypto_Shutdown();
 // }
 
 // /**
@@ -901,7 +901,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 //  **/
 // UTEST(TC_PROCESS, DECRYPT_CBC_KMC_16B)
 // {
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_FALSE, TC_NO_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -934,9 +934,9 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 
 //     // Convert input test frame
 //     hex_conversion(test_frame_pt_h, (char**) &test_frame_pt_b, &test_frame_pt_len);
-    
+
 //     status = Crypto_TC_ProcessSecurity(test_frame_pt_b, &test_frame_pt_len, tc_sdls_processed_frame);
-    
+
 //     char* truth_data_h = "80d2c70008197f0b003100000000b1fe";
 //     uint8_t* truth_data_b = NULL;
 //     int truth_data_l = 0;
@@ -952,7 +952,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 
 //     ASSERT_EQ(CRYPTO_LIB_SUCCESS, status);
 //     free(test_frame_pt_b);
-//     Crypto_Shutdown();       
+//     Crypto_Shutdown();
 // }
 
 // /**
@@ -960,7 +960,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 //  **/
 // UTEST(TC_PROCESS, DECRYPT_CBC_KMC_NULL_IV)
 // {
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_CRYPTO_MODULE, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_FALSE, TC_NO_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_FALSE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -988,11 +988,11 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 //     // Convert input test frame
 //     hex_conversion(test_frame_pt_h, (char**) &test_frame_pt_b, &test_frame_pt_len);
 //     status = Crypto_TC_ProcessSecurity(test_frame_pt_b, &test_frame_pt_len, tc_sdls_processed_frame);
-    
+
 
 //     ASSERT_EQ(CRYPTO_LIB_SUCCESS, status);
 //     free(test_frame_pt_b);
-//     Crypto_Shutdown();       
+//     Crypto_Shutdown();
 // }
 
 // /**
@@ -1001,7 +1001,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 // UTEST(TC_PROCESS, DECRYPT_GCM_KMC_NULL_IV)
 // {
 //     // Setup & Initialize CryptoLib
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_CRYPTO_MODULE, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_TRUE, TC_HAS_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -1052,14 +1052,14 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 //  **/
 // UTEST(TC_PROCESS, HAPPY_PATH_DECRYPT_CBC_MDB_KMC)
 // {
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_FALSE, TC_NO_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
 //     Crypto_Config_MariaDB("db-itc-kmc.nasa.gov","sadb", 3306,CRYPTO_TRUE,CRYPTO_TRUE, "/certs/ammos-ca-bundle.crt", NULL, CLIENT_CERTIFICATE, CLIENT_CERTIFICATE_KEY, NULL, "root", NULL);
 //     Crypto_Config_Kmc_Crypto_Service("https", "itc-kmc.nasa.gov", 8443, "crypto-service","/certs/ammos-ca-bundle.crt",NULL, CRYPTO_TRUE, CLIENT_CERTIFICATE, "PEM", CLIENT_CERTIFICATE_KEY, NULL, NULL);
 //     Crypto_Config_Add_Gvcid_Managed_Parameter(0, 0x0003, 6, TC_HAS_FECF, TC_HAS_SEGMENT_HDRS, 1024, AOS_FHEC_NA, AOS_IZ_NA, 0);
-    
+
 //     int32_t status = Crypto_Init();
 
 //     ASSERT_EQ(CRYPTO_LIB_SUCCESS, status);
@@ -1074,7 +1074,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 
 //     // Convert input test frame
 //     hex_conversion(test_frame_pt_h, (char**) &test_frame_pt_b, &test_frame_pt_len);
-    
+
 //     status = Crypto_TC_ProcessSecurity(test_frame_pt_b, &test_frame_pt_len, tc_sdls_processed_frame);
 //     ASSERT_EQ(CRYPTO_LIB_SUCCESS, status);
 
@@ -1091,9 +1091,9 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 //     }
 //     //printf("\n");
 
-    
+
 //     free(test_frame_pt_b);
-//     Crypto_Shutdown();       
+//     Crypto_Shutdown();
 // }
 
 // /**
@@ -1101,7 +1101,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 //  **/
 // UTEST(TC_PROCESS, DECRYPT_CBC_MDB_KMC_1B)
 // {
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_FALSE, TC_NO_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -1122,7 +1122,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 
 //     // Convert input test frame
 //     hex_conversion(test_frame_pt_h, (char**) &test_frame_pt_b, &test_frame_pt_len);
-    
+
 //     status = Crypto_TC_ProcessSecurity(test_frame_pt_b, &test_frame_pt_len, tc_sdls_processed_frame);
 //     ASSERT_EQ(CRYPTO_LIB_SUCCESS, status);
 //     char* truth_data_h = "80d2c70008197f0b0031000000b1fe";
@@ -1138,9 +1138,9 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 //     }
 //     //printf("\n");
 
-    
+
 //     free(test_frame_pt_b);
-//     Crypto_Shutdown();       
+//     Crypto_Shutdown();
 // }
 
 // /**
@@ -1148,7 +1148,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 //  **/
 // UTEST(TC_PROCESS, DECRYPT_CBC_MDB_KMC_16B)
 // {
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_FALSE, TC_NO_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -1169,7 +1169,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 
 //     // Convert input test frame
 //     hex_conversion(test_frame_pt_h, (char**) &test_frame_pt_b, &test_frame_pt_len);
-    
+
 //     status = Crypto_TC_ProcessSecurity(test_frame_pt_b, &test_frame_pt_len, tc_sdls_processed_frame);
 //     ASSERT_EQ(CRYPTO_LIB_SUCCESS, status);
 
@@ -1186,9 +1186,9 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 //     }
 //     printf("\n");
 
-    
+
 //     free(test_frame_pt_b);
-//     Crypto_Shutdown();       
+//     Crypto_Shutdown();
 // }
 
 // /**
@@ -1196,7 +1196,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 //  **/
 // UTEST(TC_PROCESS, DECRYPT_CBC_MDB_KMC_NULL_IV)
 // {
-//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO, 
+//     Crypto_Config_CryptoLib(KEY_TYPE_KMC, MC_TYPE_DISABLED, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_KMCCRYPTO,
 //                             IV_CRYPTO_MODULE, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_FALSE, TC_NO_PUS_HDR,
 //                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_TRUE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
 //                             TC_CHECK_FECF_FALSE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
@@ -1224,9 +1224,9 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 
 //     // Convert input test frame
 //     hex_conversion(test_frame_pt_h, (char**) &test_frame_pt_b, &test_frame_pt_len);
-    
+
 //     status = Crypto_TC_ProcessSecurity(test_frame_pt_b, &test_frame_pt_len, tc_sdls_processed_frame);
-    
+
 //     // char* truth_data_h = "80d2c70008197f0b00310000b1fe";
 //     // uint8_t* truth_data_b = NULL;
 //     // int truth_data_l = 0;
@@ -1242,7 +1242,7 @@ UTEST(TC_APPLY_SECURITY, HAPPY_PATH_ENC_CBC_KMC)
 
 //     ASSERT_EQ(CRYPTO_LIB_SUCCESS, status);
 //     free(test_frame_pt_b);
-//     Crypto_Shutdown();       
+//     Crypto_Shutdown();
 // }
 
 UTEST_MAIN();

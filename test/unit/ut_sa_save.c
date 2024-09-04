@@ -18,9 +18,9 @@
 
 /**
  * NOTE:  ALL OF THESE TESTS ARE MEANT TO BE RUN SEQUENTIALLY!!
- * 
+ *
  * ERRONEOUS BEHAVIOR OTHERWISE
- * 
+ *
  * NOTE:  AS Security associations change, this tese will need to be updated for validation
 */
 
@@ -130,26 +130,26 @@ UTEST(SA_SAVE, INTERNAL_DEFAULT_PASS_1)
     memcpy(test_association->iv + (test_association->iv_len - test_association->shivf_len), new_iv_b, new_iv_len);
 
     return_val =
-        Crypto_TC_ApplySecurity((uint8_t* )raw_tc_sdls_ping_b, raw_tc_sdls_ping_len, &ptr_enc_frame, &enc_frame_len);  
-        free(ptr_enc_frame);
-        ptr_enc_frame = NULL;  
+        Crypto_TC_ApplySecurity((uint8_t* )raw_tc_sdls_ping_b, raw_tc_sdls_ping_len, &ptr_enc_frame, &enc_frame_len);
+    free(ptr_enc_frame);
+    ptr_enc_frame = NULL;
     return_val =
         Crypto_TC_ApplySecurity((uint8_t* )raw_tc_sdls_ping_b, raw_tc_sdls_ping_len, &ptr_enc_frame, &enc_frame_len);
-        free(ptr_enc_frame);
-        ptr_enc_frame = NULL;
+    free(ptr_enc_frame);
+    ptr_enc_frame = NULL;
     return_val =
         Crypto_TC_ApplySecurity((uint8_t* )raw_tc_sdls_ping_b, raw_tc_sdls_ping_len, &ptr_enc_frame, &enc_frame_len);
-        free(ptr_enc_frame);
-        ptr_enc_frame = NULL;
+    free(ptr_enc_frame);
+    ptr_enc_frame = NULL;
     return_val =
         Crypto_TC_ApplySecurity((uint8_t* )raw_tc_sdls_ping_b, raw_tc_sdls_ping_len, &ptr_enc_frame, &enc_frame_len);
-        free(ptr_enc_frame);
-        ptr_enc_frame = NULL;
+    free(ptr_enc_frame);
+    ptr_enc_frame = NULL;
     return_val =
         Crypto_TC_ApplySecurity((uint8_t* )raw_tc_sdls_ping_b, raw_tc_sdls_ping_len, &ptr_enc_frame, &enc_frame_len);
     for (int i = 0; i < test_association->iv_len; i++)
     {
-        printf("[%d] Truth: %02x, Actual: %02x\n", i, expected_iv_b[i], *(test_association->iv + i)); 
+        printf("[%d] Truth: %02x, Actual: %02x\n", i, expected_iv_b[i], *(test_association->iv + i));
         ASSERT_EQ(expected_iv_b[i], *(test_association->iv + i));
     }
 
@@ -182,7 +182,7 @@ UTEST(SA_SAVE, VERIFY_DEFAULT_PASS_1_SAVE)
     ASSERT_EQ(0, str_cmp_output);
     str_cmp_output = strcmp(test_association->ak_ref, "TEST_AK_REF_BAD");
     ASSERT_NE(0, str_cmp_output);
-    
+
     ASSERT_EQ(test_association->sa_state, SA_OPERATIONAL);
     ASSERT_EQ(test_association->gvcid_blk.tfvn, 0);
     ASSERT_EQ(test_association->gvcid_blk.scid, (SCID & 0x3FF));
@@ -196,7 +196,7 @@ UTEST(SA_SAVE, VERIFY_DEFAULT_PASS_1_SAVE)
     ASSERT_EQ(test_association->stmacf_len, 16);
     ASSERT_EQ(test_association->ecs, 0x01);
     ASSERT_EQ(test_association->ecs_len, 1);
-    
+
     ASSERT_EQ(test_association->iv[0], 0x00);
     ASSERT_EQ(test_association->iv[1], 0x00);
     ASSERT_EQ(test_association->iv[2], 0x00);
@@ -210,7 +210,7 @@ UTEST(SA_SAVE, VERIFY_DEFAULT_PASS_1_SAVE)
     ASSERT_EQ(test_association->iv[10], 0x00);
     ASSERT_EQ(test_association->iv[11], 0x01);
 
-    
+
     ASSERT_EQ(test_association->iv_len, 12);
     ASSERT_EQ(test_association->acs_len, 0);
     ASSERT_EQ(test_association->acs, 0x00);
@@ -272,26 +272,26 @@ UTEST(SA_SAVE, SAVE_PASS_1)
     memcpy(test_association->iv + (test_association->iv_len - test_association->shivf_len), new_iv_b, new_iv_len);
 
     return_val =
-        Crypto_TC_ApplySecurity((uint8_t* )raw_tc_sdls_ping_b, raw_tc_sdls_ping_len, &ptr_enc_frame, &enc_frame_len);  
-        free(ptr_enc_frame);
-        ptr_enc_frame = NULL;  
+        Crypto_TC_ApplySecurity((uint8_t* )raw_tc_sdls_ping_b, raw_tc_sdls_ping_len, &ptr_enc_frame, &enc_frame_len);
+    free(ptr_enc_frame);
+    ptr_enc_frame = NULL;
     return_val =
         Crypto_TC_ApplySecurity((uint8_t* )raw_tc_sdls_ping_b, raw_tc_sdls_ping_len, &ptr_enc_frame, &enc_frame_len);
-        free(ptr_enc_frame);
-        ptr_enc_frame = NULL;
+    free(ptr_enc_frame);
+    ptr_enc_frame = NULL;
     return_val =
         Crypto_TC_ApplySecurity((uint8_t* )raw_tc_sdls_ping_b, raw_tc_sdls_ping_len, &ptr_enc_frame, &enc_frame_len);
-        free(ptr_enc_frame);
-        ptr_enc_frame = NULL;
+    free(ptr_enc_frame);
+    ptr_enc_frame = NULL;
     return_val =
         Crypto_TC_ApplySecurity((uint8_t* )raw_tc_sdls_ping_b, raw_tc_sdls_ping_len, &ptr_enc_frame, &enc_frame_len);
-        free(ptr_enc_frame);
-        ptr_enc_frame = NULL;
+    free(ptr_enc_frame);
+    ptr_enc_frame = NULL;
     return_val =
         Crypto_TC_ApplySecurity((uint8_t* )raw_tc_sdls_ping_b, raw_tc_sdls_ping_len, &ptr_enc_frame, &enc_frame_len);
     for (int i = 0; i < test_association->iv_len; i++)
     {
-        printf("[%d] Truth: %02x, Actual: %02x\n", i, expected_iv_b[i], *(test_association->iv + i)); 
+        printf("[%d] Truth: %02x, Actual: %02x\n", i, expected_iv_b[i], *(test_association->iv + i));
         ASSERT_EQ(expected_iv_b[i], *(test_association->iv + i));
     }
 
@@ -337,7 +337,7 @@ UTEST(SA_SAVE, VERIFY_SAVE_PASS_1_SAVE)
     ASSERT_EQ(test_association->stmacf_len, 16);
     ASSERT_EQ(test_association->ecs, 0x01);
     ASSERT_EQ(test_association->ecs_len, 1);
-    
+
     ASSERT_EQ(test_association->iv[0], 0x00);
     ASSERT_EQ(test_association->iv[1], 0x00);
     ASSERT_EQ(test_association->iv[2], 0x00);
@@ -350,7 +350,7 @@ UTEST(SA_SAVE, VERIFY_SAVE_PASS_1_SAVE)
     ASSERT_EQ(test_association->iv[9], 0x00);
     ASSERT_EQ(test_association->iv[10], 0x00);
     ASSERT_EQ(test_association->iv[11], 0x01);
-    
+
     ASSERT_EQ(test_association->iv_len, 12);
     ASSERT_EQ(test_association->acs_len, 0);
     ASSERT_EQ(test_association->acs, 0x00);
@@ -410,26 +410,26 @@ UTEST(SA_SAVE, SAVE_PASS_2)
     memcpy(test_association->iv + (test_association->iv_len - test_association->shivf_len), new_iv_b, new_iv_len);
 
     return_val =
-        Crypto_TC_ApplySecurity((uint8_t* )raw_tc_sdls_ping_b, raw_tc_sdls_ping_len, &ptr_enc_frame, &enc_frame_len);  
-        free(ptr_enc_frame);
-        ptr_enc_frame = NULL;  
+        Crypto_TC_ApplySecurity((uint8_t* )raw_tc_sdls_ping_b, raw_tc_sdls_ping_len, &ptr_enc_frame, &enc_frame_len);
+    free(ptr_enc_frame);
+    ptr_enc_frame = NULL;
     return_val =
         Crypto_TC_ApplySecurity((uint8_t* )raw_tc_sdls_ping_b, raw_tc_sdls_ping_len, &ptr_enc_frame, &enc_frame_len);
-        free(ptr_enc_frame);
-        ptr_enc_frame = NULL;
+    free(ptr_enc_frame);
+    ptr_enc_frame = NULL;
     return_val =
         Crypto_TC_ApplySecurity((uint8_t* )raw_tc_sdls_ping_b, raw_tc_sdls_ping_len, &ptr_enc_frame, &enc_frame_len);
-        free(ptr_enc_frame);
-        ptr_enc_frame = NULL;
+    free(ptr_enc_frame);
+    ptr_enc_frame = NULL;
     return_val =
         Crypto_TC_ApplySecurity((uint8_t* )raw_tc_sdls_ping_b, raw_tc_sdls_ping_len, &ptr_enc_frame, &enc_frame_len);
-        free(ptr_enc_frame);
-        ptr_enc_frame = NULL;
+    free(ptr_enc_frame);
+    ptr_enc_frame = NULL;
     return_val =
         Crypto_TC_ApplySecurity((uint8_t* )raw_tc_sdls_ping_b, raw_tc_sdls_ping_len, &ptr_enc_frame, &enc_frame_len);
     for (int i = 0; i < test_association->iv_len; i++)
     {
-        printf("[%d] Truth: %02x, Actual: %02x\n", i, expected_iv_b[i], *(test_association->iv + i)); 
+        printf("[%d] Truth: %02x, Actual: %02x\n", i, expected_iv_b[i], *(test_association->iv + i));
         ASSERT_EQ(expected_iv_b[i], *(test_association->iv + i));
     }
 
@@ -468,7 +468,7 @@ UTEST(SA_SAVE, VERIFY_SAVE_PASS_2_SAVE)
     ASSERT_EQ(test_association->stmacf_len, 16);
     ASSERT_EQ(test_association->ecs, 0x01);
     ASSERT_EQ(test_association->ecs_len, 1);
-    
+
     ASSERT_EQ(test_association->iv[0], 0x00);
     ASSERT_EQ(test_association->iv[1], 0x00);
     ASSERT_EQ(test_association->iv[2], 0x00);
@@ -481,7 +481,7 @@ UTEST(SA_SAVE, VERIFY_SAVE_PASS_2_SAVE)
     ASSERT_EQ(test_association->iv[9], 0x00);
     ASSERT_EQ(test_association->iv[10], 0x00);
     ASSERT_EQ(test_association->iv[11], 0x01);
-    
+
     ASSERT_EQ(test_association->iv_len, 12);
     ASSERT_EQ(test_association->acs_len, 0);
     ASSERT_EQ(test_association->acs, 0x00);
@@ -528,7 +528,7 @@ UTEST(SA_SAVE, VERIFY_SAVE_ADJACENT)
     ASSERT_EQ(test_association->stmacf_len, 16);
     ASSERT_EQ(test_association->ecs, 0x01);
     ASSERT_EQ(test_association->ecs_len, 1);
-    
+
     ASSERT_EQ(test_association->iv[0], 0x00);
     ASSERT_EQ(test_association->iv[1], 0x00);
     ASSERT_EQ(test_association->iv[2], 0x00);
@@ -541,7 +541,7 @@ UTEST(SA_SAVE, VERIFY_SAVE_ADJACENT)
     ASSERT_EQ(test_association->iv[9], 0x00);
     ASSERT_EQ(test_association->iv[10], 0x00);
     ASSERT_EQ(test_association->iv[11], 0x01);
-    
+
     ASSERT_EQ(test_association->iv_len, 12);
     ASSERT_EQ(test_association->acs_len, 0);
     ASSERT_EQ(test_association->acs, 0x00);
@@ -580,7 +580,7 @@ UTEST(SA_SAVE, VERIFY_SAVE_ADJACENT)
     ASSERT_EQ(test_association->stmacf_len, 16);
     ASSERT_EQ(test_association->ecs, 0);
     ASSERT_EQ(test_association->ecs_len, 0);
-    
+
     ASSERT_EQ(test_association->iv[0], 0x00);
     ASSERT_EQ(test_association->iv[1], 0x00);
     ASSERT_EQ(test_association->iv[2], 0x00);
@@ -593,7 +593,7 @@ UTEST(SA_SAVE, VERIFY_SAVE_ADJACENT)
     ASSERT_EQ(test_association->iv[9], 0x00);
     ASSERT_EQ(test_association->iv[10], 0x00);
     ASSERT_EQ(test_association->iv[11], 0x00);
-    
+
     ASSERT_EQ(test_association->iv_len, 12);
     ASSERT_EQ(test_association->acs_len, 1);
     ASSERT_EQ(test_association->acs, 3);
@@ -632,7 +632,7 @@ UTEST(SA_SAVE, VERIFY_SAVE_ADJACENT)
     ASSERT_EQ(test_association->stmacf_len, 0);
     ASSERT_EQ(test_association->ecs, 0);
     ASSERT_EQ(test_association->ecs_len, 0);
-    
+
     ASSERT_EQ(test_association->iv[0], 0x00);
     ASSERT_EQ(test_association->iv[1], 0x00);
     ASSERT_EQ(test_association->iv[2], 0x00);
@@ -645,7 +645,7 @@ UTEST(SA_SAVE, VERIFY_SAVE_ADJACENT)
     ASSERT_EQ(test_association->iv[9], 0x00);
     ASSERT_EQ(test_association->iv[10], 0x00);
     ASSERT_EQ(test_association->iv[11], 0x00);
-    
+
     ASSERT_EQ(test_association->iv_len, 12);
     ASSERT_EQ(test_association->acs_len, 0);
     ASSERT_EQ(test_association->acs, 0x00);
@@ -662,7 +662,7 @@ UTEST(SA_SAVE, VERIFY_SAVE_ADJACENT)
     }
     //sa[location].arsn[0] = sa_ptr->arsn;
     ASSERT_EQ(test_association->arsnw_len, 1);
-    ASSERT_EQ(test_association->arsnw, 5);    
+    ASSERT_EQ(test_association->arsnw, 5);
 }
 
 UTEST(SA_SAVE, VERIFY_SAVE_EDGES)
@@ -692,7 +692,7 @@ UTEST(SA_SAVE, VERIFY_SAVE_EDGES)
     ASSERT_EQ(test_association->stmacf_len, 0);
     ASSERT_EQ(test_association->ecs, 0x00);
     ASSERT_EQ(test_association->ecs_len, 0);
-    
+
     ASSERT_EQ(test_association->iv[0], 0x00);
     ASSERT_EQ(test_association->iv[1], 0x00);
     ASSERT_EQ(test_association->iv[2], 0x00);
@@ -705,7 +705,7 @@ UTEST(SA_SAVE, VERIFY_SAVE_EDGES)
     ASSERT_EQ(test_association->iv[9], 0x00);
     ASSERT_EQ(test_association->iv[10], 0x00);
     ASSERT_EQ(test_association->iv[11], 0x00);
-    
+
     ASSERT_EQ(test_association->iv_len, 12);
     ASSERT_EQ(test_association->acs_len, 0);
     ASSERT_EQ(test_association->acs, 0x00);
@@ -722,7 +722,7 @@ UTEST(SA_SAVE, VERIFY_SAVE_EDGES)
     }
     //sa[location].arsn[0] = sa_ptr->arsn;
     ASSERT_EQ(test_association->arsnw_len, 1);
-    ASSERT_EQ(test_association->arsnw, 5);    
+    ASSERT_EQ(test_association->arsnw, 5);
 
 // VERIFY SA 17
     sa_if->sa_get_from_spi(17, &test_association);
@@ -744,7 +744,7 @@ UTEST(SA_SAVE, VERIFY_SAVE_EDGES)
     ASSERT_EQ(test_association->stmacf_len, 0);
     ASSERT_EQ(test_association->ecs, 0);
     ASSERT_EQ(test_association->ecs_len, 0);
-    
+
     ASSERT_EQ(test_association->iv[0], 0x00);
     ASSERT_EQ(test_association->iv[1], 0x00);
     ASSERT_EQ(test_association->iv[2], 0x00);
@@ -757,7 +757,7 @@ UTEST(SA_SAVE, VERIFY_SAVE_EDGES)
     ASSERT_EQ(test_association->iv[9], 0x00);
     ASSERT_EQ(test_association->iv[10], 0x00);
     ASSERT_EQ(test_association->iv[11], 0x00);
-    
+
     ASSERT_EQ(test_association->iv_len, 0);
     ASSERT_EQ(test_association->acs_len, 0);
     ASSERT_EQ(test_association->acs, 0x00);

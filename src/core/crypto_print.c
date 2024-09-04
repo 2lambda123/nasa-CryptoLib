@@ -220,7 +220,7 @@ void Crypto_saPrint(SecurityAssociation_t* sa)
             printf("\t iv[%d]      = 0x%02x \n", i, *(sa->iv + i));
         }
     }
-    else{
+    else {
         printf("\t iv        = %s \n", sa->iv);
     }
     printf("\t acs_len    = %d \n", sa->acs_len);
@@ -284,7 +284,7 @@ void Crypto_binprint(void* c, size_t n)
     if (c == NULL)
         return;
     while (n > 0)
-    {    
+    {
         --n;
         for (q = 0x80; q; q >>= 1)
             printf("%x", !!(t[n] & q));

@@ -208,7 +208,7 @@ typedef struct
     CryptographyType cryptography_type;
     IvType iv_type; // Whether or not CryptoLib should generate the IV
     CreateFecfBool crypto_create_fecf; // Whether or not CryptoLib is expected to calculate TC FECFs and return
-                                         // payloads with the FECF
+    // payloads with the FECF
     TcProcessSdlsPdus process_sdls_pdus; // Config to process SDLS extended procedure PDUs in CryptoLib
     TcPusHdrPresent has_pus_hdr;
     TcIgnoreSaState ignore_sa_state; // TODO - add logic that uses this configuration

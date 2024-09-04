@@ -362,9 +362,9 @@ uint16_t Crypto_Calc_FECF(const uint8_t* ingest, int len_ingest)
     int j;
 
     for (i = 0; i < len_ingest; i++)
-    { // Byte Logic
+    {   // Byte Logic
         for (j = 0; j < 8; j++)
-        { // Bit Logic
+        {   // Bit Logic
             bit = ((ingest[i] >> (7 - j) & 1) == 1);
             c15 = ((fecf >> 15 & 1) == 1);
             fecf <<= 1;
@@ -404,7 +404,7 @@ uint16_t Crypto_Calc_FECF(const uint8_t* ingest, int len_ingest)
  * @return uint16: CRC
  **/
 uint16_t Crypto_Calc_CRC16(uint8_t* data, int size)
-{ // Code provided by ESA
+{   // Code provided by ESA
     uint16_t crc = 0xFFFF;
 
     for (; size > 0; size--)
@@ -478,7 +478,7 @@ int32_t Crypto_PDU(uint8_t* ingest, TC_t* tc_frame)
                     break;
                 default:
                     printf(KRED "Error: Crypto_PDU failed interpreting Key Management Procedure Identification Field! "
-                                "\n" RESET);
+                           "\n" RESET);
                     break;
                 }
                 break;
@@ -686,14 +686,14 @@ int32_t Crypto_PDU(uint8_t* ingest, TC_t* tc_frame)
 
 
 int32_t Crypto_Get_Managed_Parameters_For_Gvcid(uint8_t tfvn, uint16_t scid, uint8_t vcid,
-                                                GvcidManagedParameters_t* managed_parameters_in,
-                                                GvcidManagedParameters_t* managed_parameters_out)
+        GvcidManagedParameters_t* managed_parameters_in,
+        GvcidManagedParameters_t* managed_parameters_out)
 {
     int32_t status = MANAGED_PARAMETERS_FOR_GVCID_NOT_FOUND;
     for(int i = 0; i < gvcid_counter; i++)
     {
         if (managed_parameters_in[i].tfvn == tfvn && managed_parameters_in[i].scid == scid &&
-            managed_parameters_in[i].vcid == vcid)
+                managed_parameters_in[i].vcid == vcid)
         {
             *managed_parameters_out = managed_parameters_in[i];
             status = CRYPTO_LIB_SUCCESS;
@@ -781,7 +781,7 @@ int32_t Crypto_Process_Extended_Procedure_Pdu(TC_t* tc_sdls_processed_frame, uin
     if (crypto_config.has_pus_hdr == TC_HAS_PUS_HDR)
     {
         if ((tc_sdls_processed_frame->tc_pdu[0] == 0x18) && (tc_sdls_processed_frame->tc_pdu[1] == 0x80))
-        // Crypto Lib Application ID
+            // Crypto Lib Application ID
         {
 #ifdef DEBUG
             printf(KGRN "Received SDLS command: " RESET);
@@ -1110,8 +1110,8 @@ int32_t Crypto_Get_Security_Header_Length(SecurityAssociation_t* sa_ptr)
                                             gvcid_managed_parameters, temp_current_managed_parameters);
     */
 
-    if (!sa_ptr) 
-    { 
+    if (!sa_ptr)
+    {
 #ifdef DEBUG
         printf(KRED "Get_Security_Header_Length passed Null SA!\n" RESET);
 #endif
@@ -1131,8 +1131,8 @@ int32_t Crypto_Get_Security_Header_Length(SecurityAssociation_t* sa_ptr)
 **/
 int32_t Crypto_Get_Security_Trailer_Length(SecurityAssociation_t* sa_ptr)
 {
-    if (!sa_ptr) 
-    { 
+    if (!sa_ptr)
+    {
 #ifdef DEBUG
         printf(KRED "Get_Trailer_Trailer_Length passed Null SA!\n" RESET);
 #endif

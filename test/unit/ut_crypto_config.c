@@ -69,7 +69,7 @@ UTEST(CRYPTO_CONFIG, CRYPTO_INIT_MARIADB_NULL)
 
     crypto_config_p->sa_type = SA_TYPE_MARIADB;
     status = Crypto_Init_With_Configs(crypto_config_p, &gvcid_managed_paramenters_p, sa_mariadb_config_p, cryptography_kmc_crypto_config_p);
- 
+
     free(crypto_config_p);
     ASSERT_EQ(CRYPTO_MARIADB_CONFIGURATION_NOT_COMPLETE, status);
 }
@@ -105,10 +105,10 @@ UTEST(CRYPTO_CONFIG, CRYPTO_INIT_MARIADB_NULL)
 //{
 //    int32_t status = CRYPTO_LIB_ERROR;
 //
-//    status = Crypto_Config_CryptoLib(KEY_TYPE_INTERNAL, MC_TYPE_INTERNAL, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_UNITIALIZED, 
-//                            IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_TRUE, 
-//                            TC_HAS_PUS_HDR, TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_FALSE, 
-//                            TC_UNIQUE_SA_PER_MAP_ID_FALSE, TC_CHECK_FECF_TRUE, 0x3F, 
+//    status = Crypto_Config_CryptoLib(KEY_TYPE_INTERNAL, MC_TYPE_INTERNAL, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_UNITIALIZED,
+//                            IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_TRUE,
+//                            TC_HAS_PUS_HDR, TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_FALSE,
+//                            TC_UNIQUE_SA_PER_MAP_ID_FALSE, TC_CHECK_FECF_TRUE, 0x3F,
 //                            SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
 //    status = Crypto_Init();
 //
@@ -156,7 +156,7 @@ UTEST(CRYPTO_CONFIG, CRYPTO_CONFIG_MDB)
     char* ssl_key = "NONE";
     char* ssl_ca = "NONE";
     char* ssl_capath = "NONE";
-    uint8_t verify_server = 0; 
+    uint8_t verify_server = 0;
     char* client_key_password = NULL;
     status = Crypto_Config_MariaDB(mysql_hostname, mysql_database, mysql_port, CRYPTO_FALSE, verify_server, ssl_ca,
                                    ssl_capath, ssl_cert, ssl_key, client_key_password, mysql_username, mysql_password);
@@ -185,9 +185,9 @@ UTEST(CRYPTO_CONFIG, CRYPTO_CONFIG_KMC)
     uint8_t ignore_ssl_hostname_validation = CRYPTO_TRUE;
 
     status = Crypto_Config_Kmc_Crypto_Service(protocol, hostname, port, kmc_crypto_app_uri, mtls_ca_bundle,
-                                              mtls_ca_path, ignore_ssl_hostname_validation, mtls_client_cert_path,
-                                              mtls_client_cert_type, mtls_client_key_path,
-                                              mtls_client_key_pass, mtls_issuer_cert);
+             mtls_ca_path, ignore_ssl_hostname_validation, mtls_client_cert_path,
+             mtls_client_cert_type, mtls_client_key_path,
+             mtls_client_key_pass, mtls_issuer_cert);
     ASSERT_EQ(CRYPTO_LIB_SUCCESS, status);
 }
 

@@ -47,50 +47,50 @@ static int32_t cryptography_init(void);
 static int32_t cryptography_shutdown(void);
 // Cryptography Interface Functions
 static int32_t cryptography_encrypt(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr,
-                                         uint8_t* iv, uint32_t iv_len,uint8_t* ecs, uint8_t padding, char* cam_cookies);
+                                    uint8_t* data_in, size_t len_data_in,
+                                    uint8_t* key, uint32_t len_key,
+                                    SecurityAssociation_t* sa_ptr,
+                                    uint8_t* iv, uint32_t iv_len,uint8_t* ecs, uint8_t padding, char* cam_cookies);
 static int32_t cryptography_decrypt(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr, 
-                                         uint8_t* iv, uint32_t iv_len,
-                                         uint8_t* ecs, uint8_t* acs, char* cam_cookies);
+                                    uint8_t* data_in, size_t len_data_in,
+                                    uint8_t* key, uint32_t len_key,
+                                    SecurityAssociation_t* sa_ptr,
+                                    uint8_t* iv, uint32_t iv_len,
+                                    uint8_t* ecs, uint8_t* acs, char* cam_cookies);
 static int32_t cryptography_authenticate(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr,
-                                         uint8_t* iv, uint32_t iv_len,
-                                         uint8_t* mac, uint32_t mac_size,
-                                         uint8_t* aad, uint32_t aad_len,
-                                         uint8_t ecs, uint8_t acs, char* cam_cookies);
+        uint8_t* data_in, size_t len_data_in,
+        uint8_t* key, uint32_t len_key,
+        SecurityAssociation_t* sa_ptr,
+        uint8_t* iv, uint32_t iv_len,
+        uint8_t* mac, uint32_t mac_size,
+        uint8_t* aad, uint32_t aad_len,
+        uint8_t ecs, uint8_t acs, char* cam_cookies);
 static int32_t cryptography_validate_authentication(uint8_t* data_out, size_t len_data_out,
-                                         const uint8_t* data_in, const size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr,
-                                         const uint8_t* iv, uint32_t iv_len,
-                                         const uint8_t* mac, uint32_t mac_size,
-                                         const uint8_t* aad, uint32_t aad_len,
-                                         uint8_t ecs, uint8_t acs, char* cam_cookies);
+        const uint8_t* data_in, const size_t len_data_in,
+        uint8_t* key, uint32_t len_key,
+        SecurityAssociation_t* sa_ptr,
+        const uint8_t* iv, uint32_t iv_len,
+        const uint8_t* mac, uint32_t mac_size,
+        const uint8_t* aad, uint32_t aad_len,
+        uint8_t ecs, uint8_t acs, char* cam_cookies);
 static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr,
-                                         uint8_t* iv, uint32_t iv_len,
-                                         uint8_t* mac, uint32_t mac_size,
-                                         uint8_t* aad, uint32_t aad_len,
-                                         uint8_t encrypt_bool, uint8_t authenticate_bool,
-                                         uint8_t aad_bool, uint8_t* ecs, uint8_t* acs, char* cam_cookies);
+        uint8_t* data_in, size_t len_data_in,
+        uint8_t* key, uint32_t len_key,
+        SecurityAssociation_t* sa_ptr,
+        uint8_t* iv, uint32_t iv_len,
+        uint8_t* mac, uint32_t mac_size,
+        uint8_t* aad, uint32_t aad_len,
+        uint8_t encrypt_bool, uint8_t authenticate_bool,
+        uint8_t aad_bool, uint8_t* ecs, uint8_t* acs, char* cam_cookies);
 static int32_t cryptography_aead_decrypt(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr,
-                                         uint8_t* iv, uint32_t iv_len,
-                                         uint8_t* mac, uint32_t mac_size,
-                                         uint8_t* aad, uint32_t aad_len,
-                                         uint8_t decrypt_bool, uint8_t authenticate_bool,
-                                         uint8_t aad_bool, uint8_t* ecs, uint8_t* acs, char* cam_cookies);
+        uint8_t* data_in, size_t len_data_in,
+        uint8_t* key, uint32_t len_key,
+        SecurityAssociation_t* sa_ptr,
+        uint8_t* iv, uint32_t iv_len,
+        uint8_t* mac, uint32_t mac_size,
+        uint8_t* aad, uint32_t aad_len,
+        uint8_t decrypt_bool, uint8_t authenticate_bool,
+        uint8_t aad_bool, uint8_t* ecs, uint8_t* acs, char* cam_cookies);
 static int32_t cryptography_get_acs_algo(int8_t algo_enum);
 static int32_t cryptography_get_ecs_algo(int8_t algo_enum);
 
@@ -180,9 +180,9 @@ static int32_t cryptography_config(void)
         // Form Root URI
         //len(protocol)+len(://)+len(hostname)+ len(:) + len(port_str) + len(/) + len(app_uri) + strlen('\0')
         uint32_t len_root_uri = strlen(cryptography_kmc_crypto_config->protocol) + 3 + // "://"
-                            strlen(cryptography_kmc_crypto_config->kmc_crypto_hostname) + 1 + // ":"
-                            port_str_len + 1 + // "/"
-                            strlen(cryptography_kmc_crypto_config->kmc_crypto_app_uri) + 2; // "/\0"
+                                strlen(cryptography_kmc_crypto_config->kmc_crypto_hostname) + 1 + // ":"
+                                port_str_len + 1 + // "/"
+                                strlen(cryptography_kmc_crypto_config->kmc_crypto_app_uri) + 2; // "/\0"
 
         kmc_root_uri = malloc(len_root_uri);
         snprintf(kmc_root_uri,len_root_uri,"%s://%s:%s/%s/",cryptography_kmc_crypto_config->protocol,
@@ -267,14 +267,14 @@ static int32_t cryptography_init(void)
 }
 static int32_t cryptography_shutdown(void)
 {
-   if(curl){
-       curl_easy_cleanup(curl);
-       curl_global_cleanup();
-   }
-   if(http_headers_list != NULL){
-       curl_slist_free_all(http_headers_list);
-   }
-    if(kmc_root_uri != NULL){
+    if(curl) {
+        curl_easy_cleanup(curl);
+        curl_global_cleanup();
+    }
+    if(http_headers_list != NULL) {
+        curl_slist_free_all(http_headers_list);
+    }
+    if(kmc_root_uri != NULL) {
         free(kmc_root_uri);
     }
     return CRYPTO_LIB_SUCCESS;
@@ -285,23 +285,23 @@ static int32_t cryptography_encrypt(uint8_t* data_out, size_t len_data_out,
                                     uint8_t* key, uint32_t len_key,
                                     SecurityAssociation_t* sa_ptr,
                                     uint8_t* iv, uint32_t iv_len,
-                                    uint8_t* ecs, uint8_t padding, 
+                                    uint8_t* ecs, uint8_t padding,
                                     char* cam_cookies)
-{ 
+{
 
     int32_t status = CRYPTO_LIB_SUCCESS;
     key = key; // Direct key input is not supported in KMC interface
     len_key = len_key; // Direct key input is not supported in KMC interface
- 
+
     // Remove pre-padding to block (KMC does not want it)
     if(*ecs == CRYPTO_CIPHER_AES256_CBC && padding > 0)
     {
         len_data_in = len_data_in - padding;
     }
 
-    #ifdef DEBUG
+#ifdef DEBUG
     printf("PADLENGTH FIELD: 0x%02x\n", *(data_in - sa_ptr->shplf_len));
-    #endif
+#endif
 
     curl_easy_reset(curl);
     status = configure_curl_connect_opts(curl, cam_cookies);
@@ -327,13 +327,13 @@ static int32_t cryptography_encrypt(uint8_t* data_out, size_t len_data_out,
     }
 
     char* encrypt_uri;
-    
+
     int len_encrypt_endpoint = strlen(encrypt_endpoint)+strlen(sa_ptr->ek_ref)+strlen(iv_base64)+strlen(AES_CBC_TRANSFORMATION);
     char* encrypt_endpoint_final = (char*) malloc(len_encrypt_endpoint);
-    if(iv == NULL){
-        snprintf(encrypt_endpoint_final,len_encrypt_endpoint,encrypt_endpoint_null_iv,sa_ptr->ek_ref,AES_CBC_TRANSFORMATION); 
+    if(iv == NULL) {
+        snprintf(encrypt_endpoint_final,len_encrypt_endpoint,encrypt_endpoint_null_iv,sa_ptr->ek_ref,AES_CBC_TRANSFORMATION);
     }
-    else{
+    else {
         snprintf(encrypt_endpoint_final,len_encrypt_endpoint,encrypt_endpoint,sa_ptr->ek_ref,AES_CBC_TRANSFORMATION, iv_base64);
     }
 
@@ -341,7 +341,7 @@ static int32_t cryptography_encrypt(uint8_t* data_out, size_t len_data_out,
     encrypt_uri[0] = '\0';
     strcat(encrypt_uri, kmc_root_uri);
     strcat(encrypt_uri, encrypt_endpoint_final);
-    
+
 #ifdef DEBUG
     printf("Encrypt URI: %s\n",encrypt_uri);
 #endif
@@ -408,8 +408,8 @@ static int32_t cryptography_encrypt(uint8_t* data_out, size_t len_data_out,
             ciphertext_IV_base64 = malloc(len_ciphertext+1);
             memcpy(ciphertext_IV_base64,chunk_write->response + t[json_idx + 1].start, len_ciphertext);
             ciphertext_IV_base64[len_ciphertext] = '\0';
-            
-            
+
+
             char* line;
             char* token;
             char temp_buff[256];
@@ -419,19 +419,19 @@ static int32_t cryptography_encrypt(uint8_t* data_out, size_t len_data_out,
 
                 for (token = strtok(temp_buff, ":"); token != NULL; token = strtok(token + strlen(token) + 1, ":"))
                 {
-                    if(strcmp(token, "initialVector") == 0){
+                    if(strcmp(token, "initialVector") == 0) {
                         token = strtok(token + strlen(token) + 1, ":");
                         char * ciphertext_token_base64 = malloc(strlen(token));
                         size_t cipher_text_token_len = strlen(token);
                         memcpy(ciphertext_token_base64,token, cipher_text_token_len);
-                        #ifdef DEBUG
+#ifdef DEBUG
                         printf("IV LENGTH: %d\n", iv_len);
                         printf("IV ENCODED Text: %s\nIV ENCODED TEXT LEN: %ld\n", ciphertext_token_base64, cipher_text_token_len);
-                        #endif
+#endif
                         char* iv_decoded = malloc((iv_len)*2 + 1);
                         size_t iv_decoded_len = 0;
                         base64urlDecode(ciphertext_token_base64,cipher_text_token_len,iv_decoded, &iv_decoded_len);
-                        #ifdef DEBUG
+#ifdef DEBUG
                         printf("Decoded IV Text Length: %ld\n", iv_decoded_len);
                         printf("Decoded IV Text: \n");
                         for (uint32_t i=0; i < iv_decoded_len; i++)
@@ -439,8 +439,8 @@ static int32_t cryptography_encrypt(uint8_t* data_out, size_t len_data_out,
                             printf("%02x ", (uint8_t)iv_decoded[i]);
                         }
                         printf("\n");
-                        #endif
-                        
+#endif
+
                         if(iv == NULL)
                         {
                             memcpy(data_out - sa_ptr->shsnf_len - sa_ptr->shivf_len - sa_ptr->shplf_len, iv_decoded, iv_decoded_len);
@@ -450,9 +450,9 @@ static int32_t cryptography_encrypt(uint8_t* data_out, size_t len_data_out,
                     }
                 }
             }
-            
 
-              
+
+
             json_idx++;
             continue;
         }
@@ -503,7 +503,7 @@ static int32_t cryptography_encrypt(uint8_t* data_out, size_t len_data_out,
         }
 
     }
-    if(ciphertext_found == CRYPTO_FALSE){
+    if(ciphertext_found == CRYPTO_FALSE) {
         status = CRYPTOGRAHPY_KMC_CIPHER_TEXT_NOT_FOUND_IN_JSON_RESPONSE;
         return status;
     }
@@ -531,12 +531,12 @@ static int32_t cryptography_encrypt(uint8_t* data_out, size_t len_data_out,
 }
 
 static int32_t cryptography_decrypt(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr, 
-                                         uint8_t* iv, uint32_t iv_len,
-                                         uint8_t* ecs, uint8_t* acs, char* cam_cookies)
-{int32_t status = CRYPTO_LIB_SUCCESS;
+                                    uint8_t* data_in, size_t len_data_in,
+                                    uint8_t* key, uint32_t len_key,
+                                    SecurityAssociation_t* sa_ptr,
+                                    uint8_t* iv, uint32_t iv_len,
+                                    uint8_t* ecs, uint8_t* acs, char* cam_cookies)
+{   int32_t status = CRYPTO_LIB_SUCCESS;
     key = key; // Direct key input is not supported in KMC interface
     ecs = ecs;
     acs = acs;
@@ -572,7 +572,7 @@ static int32_t cryptography_decrypt(uint8_t* data_out, size_t len_data_out,
     }
 
     char* decrypt_uri;
-    
+
     int len_decrypt_endpoint = strlen(decrypt_endpoint)+ key_len_in_bits_str_len + strlen(sa_ptr->ek_ref)+strlen(iv_base64)+strlen(AES_CBC_TRANSFORMATION) + strlen(AES_CRYPTO_ALGORITHM);
     char* decrypt_endpoint_final = (char*) malloc(len_decrypt_endpoint);
 
@@ -688,7 +688,7 @@ static int32_t cryptography_decrypt(uint8_t* data_out, size_t len_data_out,
             continue;
         }
     }
-    if(ciphertext_found == CRYPTO_FALSE){
+    if(ciphertext_found == CRYPTO_FALSE) {
         status = CRYPTOGRAHPY_KMC_CIPHER_TEXT_NOT_FOUND_IN_JSON_RESPONSE;
         return status;
     }
@@ -710,18 +710,18 @@ static int32_t cryptography_decrypt(uint8_t* data_out, size_t len_data_out,
     // Copy the decrypted data to the output stream
     // Crypto Service returns aad - clear_text
     memcpy(data_out,cleartext_decoded, len_data_out);
-    
+
     return status;
 }
 
 static int32_t cryptography_authenticate(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr,
-                                         uint8_t* iv, uint32_t iv_len,
-                                         uint8_t* mac, uint32_t mac_size,
-                                         uint8_t* aad, uint32_t aad_len,
-                                         uint8_t ecs, uint8_t acs, char* cam_cookies)
+        uint8_t* data_in, size_t len_data_in,
+        uint8_t* key, uint32_t len_key,
+        SecurityAssociation_t* sa_ptr,
+        uint8_t* iv, uint32_t iv_len,
+        uint8_t* mac, uint32_t mac_size,
+        uint8_t* aad, uint32_t aad_len,
+        uint8_t ecs, uint8_t acs, char* cam_cookies)
 {
     int32_t status = CRYPTO_LIB_SUCCESS;
 
@@ -732,7 +732,7 @@ static int32_t cryptography_authenticate(uint8_t* data_out, size_t len_data_out,
     iv = iv;
     iv_len = iv_len;
     ecs = ecs;
-    
+
     curl_easy_reset(curl);
     status = configure_curl_connect_opts(curl, cam_cookies);
     if(status != CRYPTO_LIB_SUCCESS)
@@ -756,9 +756,9 @@ static int32_t cryptography_authenticate(uint8_t* data_out, size_t len_data_out,
 
 
     // Need to copy the data over, since authentication won't change/move the data directly
-    if(data_out != NULL){
+    if(data_out != NULL) {
         memcpy(data_out, data_in, len_data_in);
-    }else{
+    } else {
         return CRYPTO_LIB_ERR_NULL_BUFFER;
     }
 
@@ -865,10 +865,10 @@ static int32_t cryptography_authenticate(uint8_t* data_out, size_t len_data_out,
 #ifdef DEBUG
                 printf("Found key in metadata: %s\n",key);
 #endif
-                if(strcmp(key,"integrityCheckValue")==0){
+                if(strcmp(key,"integrityCheckValue")==0) {
                     break; // key found!
                 }
-                if(strcmp(key,"integrityCheckValue")!=0){
+                if(strcmp(key,"integrityCheckValue")!=0) {
                     metadata += comma_idx+1;
                     if(metadata >= metadata_end)
                     {
@@ -918,7 +918,7 @@ static int32_t cryptography_authenticate(uint8_t* data_out, size_t len_data_out,
         }
 
     }
-    if(icvtext_found == CRYPTO_FALSE){
+    if(icvtext_found == CRYPTO_FALSE) {
         status = CRYPTOGRAHPY_KMC_ICV_NOT_FOUND_IN_JSON_RESPONSE;
         return status;
     }
@@ -945,13 +945,13 @@ static int32_t cryptography_authenticate(uint8_t* data_out, size_t len_data_out,
 }
 
 static int32_t cryptography_validate_authentication(uint8_t* data_out, size_t len_data_out,
-                                                    const uint8_t* data_in, const size_t len_data_in,
-                                                    uint8_t* key, uint32_t len_key,
-                                                    SecurityAssociation_t* sa_ptr,
-                                                    const uint8_t* iv, uint32_t iv_len,
-                                                    const uint8_t* mac, uint32_t mac_size,
-                                                    const uint8_t* aad, uint32_t aad_len,
-                                                    uint8_t ecs, uint8_t acs, char* cam_cookies)
+        const uint8_t* data_in, const size_t len_data_in,
+        uint8_t* key, uint32_t len_key,
+        SecurityAssociation_t* sa_ptr,
+        const uint8_t* iv, uint32_t iv_len,
+        const uint8_t* mac, uint32_t mac_size,
+        const uint8_t* aad, uint32_t aad_len,
+        uint8_t ecs, uint8_t acs, char* cam_cookies)
 {
     int32_t status = CRYPTO_LIB_SUCCESS;
 
@@ -971,9 +971,9 @@ static int32_t cryptography_validate_authentication(uint8_t* data_out, size_t le
     }
 
     // Need to copy the data over, since authentication won't change/move the data directly
-    if(data_out != NULL){
+    if(data_out != NULL) {
         memcpy(data_out, data_in, len_data_in);
-    }else{
+    } else {
         return CRYPTO_LIB_ERR_NULL_BUFFER;
     }
 
@@ -1126,7 +1126,7 @@ static int32_t cryptography_validate_authentication(uint8_t* data_out, size_t le
             continue;
         }
     }
-    if(http_status_found == CRYPTO_FALSE){
+    if(http_status_found == CRYPTO_FALSE) {
         status = CRYPTOGRAHPY_KMC_CRYPTO_SERVICE_GENERIC_FAILURE;
         fprintf(stderr,"KMC Crypto Generic Failure Response:\n%s\n",chunk_write->response);
         return status;
@@ -1138,14 +1138,14 @@ static int32_t cryptography_validate_authentication(uint8_t* data_out, size_t le
 }
 
 static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr,
-                                         uint8_t* iv, uint32_t iv_len,
-                                         uint8_t* mac, uint32_t mac_size,
-                                         uint8_t* aad, uint32_t aad_len,
-                                         uint8_t encrypt_bool, uint8_t authenticate_bool,
-                                         uint8_t aad_bool, uint8_t* ecs, uint8_t* acs, char* cam_cookies)
+        uint8_t* data_in, size_t len_data_in,
+        uint8_t* key, uint32_t len_key,
+        SecurityAssociation_t* sa_ptr,
+        uint8_t* iv, uint32_t iv_len,
+        uint8_t* mac, uint32_t mac_size,
+        uint8_t* aad, uint32_t aad_len,
+        uint8_t encrypt_bool, uint8_t authenticate_bool,
+        uint8_t aad_bool, uint8_t* ecs, uint8_t* acs, char* cam_cookies)
 {
     int32_t status = CRYPTO_LIB_SUCCESS;
     key = key; // Direct key input is not supported in KMC interface
@@ -1165,10 +1165,10 @@ static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
     {
         base64urlEncode(iv,iv_len,iv_base64,NULL);
     }
-    
-    #ifdef DEBUG
+
+#ifdef DEBUG
     printf("IV_BASE64: %s\n", iv_base64);
-    #endif
+#endif
 
     uint8_t* encrypt_payload = data_in;
     size_t encrypt_payload_len = len_data_in;
@@ -1197,20 +1197,20 @@ static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
 
         uint32_t mac_size_str_len = 0;
         char* mac_size_str = int_to_str(mac_size*8, &mac_size_str_len);
-        
+
         int len_encrypt_endpoint = strlen(encrypt_offset_endpoint)+strlen(sa_ptr->ek_ref)+strlen(iv_base64)+strlen(AES_GCM_TRANSFORMATION)+aad_offset_str_len + mac_size_str_len;
         char* encrypt_endpoint_final = (char*) malloc(len_encrypt_endpoint);
         if(iv != NULL)
         {
-                                   
+
             snprintf(encrypt_endpoint_final,len_encrypt_endpoint,encrypt_offset_endpoint,sa_ptr->ek_ref,AES_GCM_TRANSFORMATION, iv_base64,aad_offset_str,mac_size_str);
         }
         else
-        { 
+        {
             //"encrypt?keyRef=%s&transformation=%s&encryptOffset=%s&macLength=%s";
             snprintf(encrypt_endpoint_final,len_encrypt_endpoint,encrypt_offset_endpoint_null_iv,sa_ptr->ek_ref,AES_GCM_TRANSFORMATION,aad_offset_str,mac_size_str);
         }
-        
+
 
         free(aad_offset_str);
         free(mac_size_str);
@@ -1241,7 +1241,7 @@ static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
         {
             memcpy(&encrypt_payload[aad_len],data_in,len_data_in);
         }
-        free(encrypt_endpoint_final); 
+        free(encrypt_endpoint_final);
     }
     else //No AAD -- just prepare the endpoint URI
     {
@@ -1255,7 +1255,7 @@ static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
         {
             snprintf(encrypt_endpoint_final,len_encrypt_endpoint,encrypt_endpoint_null_iv,sa_ptr->ek_ref,AES_GCM_TRANSFORMATION);
         }
-        
+
 
         encrypt_uri = (char*) malloc(strlen(kmc_root_uri)+len_encrypt_endpoint);
         encrypt_uri[0] = '\0';
@@ -1349,7 +1349,7 @@ static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
             memcpy(ciphertext_IV_base64,chunk_write->response + t[json_idx + 1].start, len_ciphertext);
             ciphertext_IV_base64[len_ciphertext] = '\0';
             //printf("%s\n", ciphertext_IV_base64);
-            
+
             char* line;
             char* token;
             char temp_buff[256];
@@ -1359,20 +1359,20 @@ static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
 
                 for (token = strtok(temp_buff, ":"); token != NULL; token = strtok(token + strlen(token) + 1, ":"))
                 {
-                    if(strcmp(token, "initialVector") == 0){
+                    if(strcmp(token, "initialVector") == 0) {
                         token = strtok(token + strlen(token) + 1, ":");
                         char * ciphertext_token_base64 = malloc(strlen(token));
                         size_t cipher_text_token_len = strlen(token);
                         memcpy(ciphertext_token_base64,token, cipher_text_token_len);
-                        #ifdef DEBUG
+#ifdef DEBUG
                         printf("IV LENGTH: %d\n", iv_len);
                         printf("IV ENCODED Text: %s\nIV ENCODED TEXT LEN: %ld\n", ciphertext_token_base64, cipher_text_token_len);
-                        #endif
+#endif
                         char* iv_decoded = malloc((iv_len)*2 + 1);
                         size_t iv_decoded_len = 0;
                         base64urlDecode(ciphertext_token_base64,cipher_text_token_len,iv_decoded, &iv_decoded_len);
 
-                        #ifdef DEBUG
+#ifdef DEBUG
                         printf("Decoded IV Text Length: %ld\n", iv_decoded_len);
                         printf("Decoded IV Text: \n");
                         for (uint32_t i=0; i < iv_decoded_len; i++)
@@ -1380,10 +1380,10 @@ static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
                             printf("%02x ", (uint8_t)iv_decoded[i]);
                         }
                         printf("\n");
-                        #endif
+#endif
 
                         if(iv == NULL)
-                        {   
+                        {
                             memcpy(data_out - sa_ptr->shsnf_len - sa_ptr->shivf_len - sa_ptr->shplf_len, iv_decoded, iv_decoded_len);
                         }
                         free(ciphertext_token_base64);
@@ -1391,9 +1391,9 @@ static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
                     }
                 }
             }
-            
 
-              
+
+
             json_idx++;
             continue;
         }
@@ -1450,7 +1450,7 @@ static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
         }
 
     }
-    if(ciphertext_found == CRYPTO_FALSE){
+    if(ciphertext_found == CRYPTO_FALSE) {
         status = CRYPTOGRAHPY_KMC_CIPHER_TEXT_NOT_FOUND_IN_JSON_RESPONSE;
         if(encrypt_uri != NULL) free(encrypt_uri);
         if(iv_base64 != NULL) free(iv_base64);
@@ -1488,7 +1488,9 @@ static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
     if(authenticate_bool == CRYPTO_TRUE)
     {
         uint32_t data_offset = len_data_out;
-        if(encrypt_bool == CRYPTO_FALSE) { data_offset = 0; }
+        if(encrypt_bool == CRYPTO_FALSE) {
+            data_offset = 0;
+        }
         memcpy(mac,ciphertext_decoded + aad_len + data_offset, mac_size);
     }
     if (ciphertext_base64 != NULL) free(ciphertext_base64);
@@ -1502,7 +1504,7 @@ static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
 
 #ifdef DEBUG
     printf("DATA OUT:\n");
-    for(size_t i = 0; i < len_data_out; i++){
+    for(size_t i = 0; i < len_data_out; i++) {
         printf("%02x ", data_out[i]);
     }
     printf("\n");
@@ -1512,14 +1514,14 @@ static int32_t cryptography_aead_encrypt(uint8_t* data_out, size_t len_data_out,
 }
 
 static int32_t cryptography_aead_decrypt(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr,
-                                         uint8_t* iv, uint32_t iv_len,
-                                         uint8_t* mac, uint32_t mac_size,
-                                         uint8_t* aad, uint32_t aad_len,
-                                         uint8_t decrypt_bool, uint8_t authenticate_bool,
-                                         uint8_t aad_bool, uint8_t* ecs, uint8_t* acs, char* cam_cookies)
+        uint8_t* data_in, size_t len_data_in,
+        uint8_t* key, uint32_t len_key,
+        SecurityAssociation_t* sa_ptr,
+        uint8_t* iv, uint32_t iv_len,
+        uint8_t* mac, uint32_t mac_size,
+        uint8_t* aad, uint32_t aad_len,
+        uint8_t decrypt_bool, uint8_t authenticate_bool,
+        uint8_t aad_bool, uint8_t* ecs, uint8_t* acs, char* cam_cookies)
 {
     int32_t status = CRYPTO_LIB_SUCCESS;
     key = key; // Direct key input is not supported in KMC interface
@@ -1607,7 +1609,9 @@ static int32_t cryptography_aead_decrypt(uint8_t* data_out, size_t len_data_out,
         if(authenticate_bool == CRYPTO_TRUE)
         {
             uint32_t data_offset = len_data_in;
-            if(decrypt_bool == CRYPTO_FALSE) { data_offset = 0; }
+            if(decrypt_bool == CRYPTO_FALSE) {
+                data_offset = 0;
+            }
             memcpy(&decrypt_payload[aad_len + data_offset],mac,mac_size);
         }
 
@@ -1743,11 +1747,11 @@ static int32_t cryptography_aead_decrypt(uint8_t* data_out, size_t len_data_out,
             continue;
         }
     }
-    if(ciphertext_found == CRYPTO_FALSE){
+    if(ciphertext_found == CRYPTO_FALSE) {
         status = CRYPTOGRAHPY_KMC_CIPHER_TEXT_NOT_FOUND_IN_JSON_RESPONSE;
         free(chunk_read);
-        free(chunk_write); 
-        free(cleartext_base64); 
+        free(chunk_write);
+        free(cleartext_base64);
         free(decrypt_payload);
         free(decrypt_uri);
         free(iv_base64);
@@ -1793,23 +1797,23 @@ static int32_t get_auth_algorithm_from_acs(uint8_t acs_enum, const char** algo_p
 
     switch(acs_enum)
     {
-        case CRYPTO_MAC_CMAC_AES256:
-            status = CRYPTO_LIB_SUCCESS;
-            *algo_ptr = AES_CMAC_TRANSFORMATION;
-            break;
-        case CRYPTO_MAC_HMAC_SHA256:
-            status = CRYPTO_LIB_SUCCESS;
-            *algo_ptr = HMAC_SHA256;
-            break;
-        case CRYPTO_MAC_HMAC_SHA512:
-            status = CRYPTO_LIB_SUCCESS;
-            *algo_ptr = HMAC_SHA512;
-            break;
-        default:
+    case CRYPTO_MAC_CMAC_AES256:
+        status = CRYPTO_LIB_SUCCESS;
+        *algo_ptr = AES_CMAC_TRANSFORMATION;
+        break;
+    case CRYPTO_MAC_HMAC_SHA256:
+        status = CRYPTO_LIB_SUCCESS;
+        *algo_ptr = HMAC_SHA256;
+        break;
+    case CRYPTO_MAC_HMAC_SHA512:
+        status = CRYPTO_LIB_SUCCESS;
+        *algo_ptr = HMAC_SHA512;
+        break;
+    default:
 #ifdef DEBUG
-            printf("ACS Algo Enum not supported by Crypto Service\n");
+        printf("ACS Algo Enum not supported by Crypto Service\n");
 #endif
-            break;
+        break;
     }
 
     return(status);
@@ -1877,38 +1881,38 @@ static int32_t configure_curl_connect_opts(CURL* curl_handle, char* cam_cookies)
     printf("KMC mTLS Client Cert Path: %s\n",cryptography_kmc_crypto_config->mtls_client_cert_path);
     printf("KMC mTLS Client Key Path: %s\n",cryptography_kmc_crypto_config->mtls_client_key_path);
 
-    if(cryptography_kmc_crypto_config->mtls_client_cert_type != NULL){
+    if(cryptography_kmc_crypto_config->mtls_client_cert_type != NULL) {
         printf("KMC mTLS Client Cert Type: %s\n",cryptography_kmc_crypto_config->mtls_client_cert_type);
     }
-    if(cryptography_kmc_crypto_config->mtls_ca_bundle != NULL){
+    if(cryptography_kmc_crypto_config->mtls_ca_bundle != NULL) {
         printf("KMC mTLS CA Bundle: %s\n",cryptography_kmc_crypto_config->mtls_ca_bundle);
     }
-    if(cryptography_kmc_crypto_config->mtls_ca_path != NULL){
+    if(cryptography_kmc_crypto_config->mtls_ca_path != NULL) {
         printf("KMC mTLS CA Path: %s\n",cryptography_kmc_crypto_config->mtls_ca_path);
     }
-    if(cryptography_kmc_crypto_config->mtls_issuer_cert != NULL){
+    if(cryptography_kmc_crypto_config->mtls_issuer_cert != NULL) {
         printf("KMC mTLS Client Issuer Cert: %s\n",cryptography_kmc_crypto_config->mtls_issuer_cert);
     }
 #endif
     curl_easy_setopt(curl_handle, CURLOPT_PORT, cryptography_kmc_crypto_config->kmc_crypto_port);
     curl_easy_setopt(curl_handle, CURLOPT_SSLCERT, cryptography_kmc_crypto_config->mtls_client_cert_path);
     curl_easy_setopt(curl_handle, CURLOPT_SSLKEY, cryptography_kmc_crypto_config->mtls_client_key_path);
-    if(cryptography_kmc_crypto_config->mtls_client_cert_type != NULL){
+    if(cryptography_kmc_crypto_config->mtls_client_cert_type != NULL) {
         curl_easy_setopt(curl_handle, CURLOPT_SSLCERTTYPE, cryptography_kmc_crypto_config->mtls_client_cert_type);
     }
-    if(cryptography_kmc_crypto_config->mtls_client_key_pass != NULL){
+    if(cryptography_kmc_crypto_config->mtls_client_key_pass != NULL) {
         curl_easy_setopt(curl_handle, CURLOPT_KEYPASSWD, cryptography_kmc_crypto_config->mtls_client_key_pass);
     }
-    if(cryptography_kmc_crypto_config->mtls_ca_bundle != NULL){
+    if(cryptography_kmc_crypto_config->mtls_ca_bundle != NULL) {
         curl_easy_setopt(curl_handle, CURLOPT_CAINFO, cryptography_kmc_crypto_config->mtls_ca_bundle);
     }
-    if(cryptography_kmc_crypto_config->mtls_ca_path != NULL){
+    if(cryptography_kmc_crypto_config->mtls_ca_path != NULL) {
         curl_easy_setopt(curl_handle, CURLOPT_CAPATH, cryptography_kmc_crypto_config->mtls_ca_path);
     }
-    if(cryptography_kmc_crypto_config->mtls_issuer_cert != NULL){
+    if(cryptography_kmc_crypto_config->mtls_issuer_cert != NULL) {
         curl_easy_setopt(curl_handle, CURLOPT_ISSUERCERT, cryptography_kmc_crypto_config->mtls_issuer_cert);
     }
-    if(cryptography_kmc_crypto_config->ignore_ssl_hostname_validation == CRYPTO_TRUE){
+    if(cryptography_kmc_crypto_config->ignore_ssl_hostname_validation == CRYPTO_TRUE) {
         curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYHOST, 0L);
         curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYPEER, 0L);
     }
@@ -1971,16 +1975,16 @@ static int32_t get_cam_sso_token()
     }
 
     // Set CA verification options for curl_cam handle from KMC Crypto Configs...
-    if(cryptography_kmc_crypto_config->mtls_ca_bundle != NULL){
+    if(cryptography_kmc_crypto_config->mtls_ca_bundle != NULL) {
         curl_easy_setopt(curl_cam, CURLOPT_CAINFO, cryptography_kmc_crypto_config->mtls_ca_bundle);
     }
-    if(cryptography_kmc_crypto_config->mtls_ca_path != NULL){
+    if(cryptography_kmc_crypto_config->mtls_ca_path != NULL) {
         curl_easy_setopt(curl_cam, CURLOPT_CAPATH, cryptography_kmc_crypto_config->mtls_ca_path);
     }
-    if(cryptography_kmc_crypto_config->mtls_issuer_cert != NULL){
+    if(cryptography_kmc_crypto_config->mtls_issuer_cert != NULL) {
         curl_easy_setopt(curl_cam, CURLOPT_ISSUERCERT, cryptography_kmc_crypto_config->mtls_issuer_cert);
     }
-    if(cryptography_kmc_crypto_config->ignore_ssl_hostname_validation == CRYPTO_TRUE){
+    if(cryptography_kmc_crypto_config->ignore_ssl_hostname_validation == CRYPTO_TRUE) {
         curl_easy_setopt(curl_cam, CURLOPT_SSL_VERIFYHOST, 0L);
         curl_easy_setopt(curl_cam, CURLOPT_SSL_VERIFYPEER, 0L);
     }
@@ -2077,7 +2081,7 @@ static char* int_to_str(uint32_t int_src, uint32_t* converted_str_length)
 static int jsoneq(const char* json, jsmntok_t* tok, const char* s)
 {
     if (tok->type == JSMN_STRING && (int)strlen(s) == tok->end - tok->start &&
-        strncmp(json + tok->start, s, tok->end - tok->start) == 0) {
+            strncmp(json + tok->start, s, tok->end - tok->start) == 0) {
         return 0;
     }
     return -1;
@@ -2251,7 +2255,7 @@ int32_t initialize_kerberos_keytab_file_login(void)
 }
 
 /**
- * @brief Function: cryptography_get_acs_algo. Maps Cryptolib ACS enums to KMC enums 
+ * @brief Function: cryptography_get_acs_algo. Maps Cryptolib ACS enums to KMC enums
  * It is possible for supported algos to vary between crypto libraries
  * @param algo_enum
  **/
@@ -2260,25 +2264,25 @@ int32_t cryptography_get_acs_algo(int8_t algo_enum)
     int32_t algo = CRYPTO_LIB_ERR_UNSUPPORTED_ACS; // All valid algo enums will be positive
     switch (algo_enum)
     {
-        case CRYPTO_MAC_CMAC_AES256:
-            return CRYPTO_MAC_CMAC_AES256;
-        case CRYPTO_MAC_HMAC_SHA256:
-            return CRYPTO_MAC_HMAC_SHA256;
-        case CRYPTO_MAC_HMAC_SHA512:
-            return CRYPTO_MAC_HMAC_SHA512;
+    case CRYPTO_MAC_CMAC_AES256:
+        return CRYPTO_MAC_CMAC_AES256;
+    case CRYPTO_MAC_HMAC_SHA256:
+        return CRYPTO_MAC_HMAC_SHA256;
+    case CRYPTO_MAC_HMAC_SHA512:
+        return CRYPTO_MAC_HMAC_SHA512;
 
-        default:
+    default:
 #ifdef DEBUG
-            printf("ACS Algo Enum not supported\n");
+        printf("ACS Algo Enum not supported\n");
 #endif
-            break;
+        break;
     }
 
     return (int)algo;
 }
 
 /**
- * @brief Function: cryptography_get_ecs_algo. Maps Cryptolib ECS enums to KMC enums 
+ * @brief Function: cryptography_get_ecs_algo. Maps Cryptolib ECS enums to KMC enums
  * It is possible for supported algos to vary between crypto libraries
  * @param algo_enum
  **/
@@ -2287,18 +2291,18 @@ int32_t cryptography_get_ecs_algo(int8_t algo_enum)
     int32_t algo = CRYPTO_LIB_ERR_UNSUPPORTED_ECS; // All valid algo enums will be positive
     switch (algo_enum)
     {
-        case CRYPTO_CIPHER_AES256_GCM:
-            return CRYPTO_CIPHER_AES256_GCM;
-        case CRYPTO_CIPHER_AES256_CCM:
-            return CRYPTO_CIPHER_AES256_CCM;
-        case CRYPTO_CIPHER_AES256_GCM_SIV:
-            return CRYPTO_CIPHER_AES256_GCM_SIV;
+    case CRYPTO_CIPHER_AES256_GCM:
+        return CRYPTO_CIPHER_AES256_GCM;
+    case CRYPTO_CIPHER_AES256_CCM:
+        return CRYPTO_CIPHER_AES256_CCM;
+    case CRYPTO_CIPHER_AES256_GCM_SIV:
+        return CRYPTO_CIPHER_AES256_GCM_SIV;
 
-        default:
+    default:
 #ifdef DEBUG
-            printf("ECS Algo Enum not supported\n");
+        printf("ECS Algo Enum not supported\n");
 #endif
-            break;
+        break;
     }
 
     return (int32_t)algo;

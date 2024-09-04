@@ -85,7 +85,7 @@ int32_t sa_load_file()
 #endif
         status = CRYPTO_LIB_ERR_FAIL_SA_LOAD;
     }
-    else{
+    else {
 #ifdef SA_DEBUG
         printf("Opened sa_save_file successfully!\n");
 #endif
@@ -178,7 +178,7 @@ int32_t sa_perform_save(SecurityAssociation_t* sa_ptr)
 
     if(status == CRYPTO_LIB_SUCCESS)
     {
-        success_flag = fwrite(sa, SA_SIZE, NUM_SA, sa_save_file); 
+        success_flag = fwrite(sa, SA_SIZE, NUM_SA, sa_save_file);
 
         if(success_flag)
         {
@@ -187,7 +187,7 @@ int32_t sa_perform_save(SecurityAssociation_t* sa_ptr)
 #ifdef SA_DEBUG
             printf("SA Written Successfully to file!\n");
 #endif
-        }       
+        }
         else
         {
             status = CRYPTO_LIB_ERR_FAIL_SA_SAVE;
@@ -215,7 +215,7 @@ static int32_t sa_save_sa(SecurityAssociation_t* sa)
     status = sa_perform_save(sa);
     ignore_save = 0;
 #endif
-    if (ignore_save) sa = sa; 
+    if (ignore_save) sa = sa;
     return status;
 }
 
@@ -258,7 +258,7 @@ void sa_populate(void)
     sa[1].gvcid_blk.scid = SCID & 0x3FF;
     sa[1].gvcid_blk.vcid = 0;
     sa[1].gvcid_blk.mapid = TYPE_TC;
-    
+
     // TC - Encryption Only - AES-GCM-256 (Keyed)
     // IV = 0...0, IV-Len = 12, TFVN = 0, VCID = 0; MAC-Len = 0, ARSNW = 5
     // EKID = 2
@@ -406,8 +406,8 @@ void sa_populate(void)
     sa[8].gvcid_blk.tfvn = 0;
     sa[8].gvcid_blk.scid = SCID & 0x3FF;
     sa[8].gvcid_blk.vcid = 0;
-    sa[8].gvcid_blk.mapid = TYPE_TM;    
-   
+    sa[8].gvcid_blk.mapid = TYPE_TM;
+
     // AOS - Clear Mode
     // IV = 0...0, IV-Len = 12, MAC-Len = 0, TFVN = 1, VCID = 0, ARSNW = 5
     // EKID = 9
@@ -577,7 +577,7 @@ int32_t key_validation(void)
     {
         uint16_t i_ekid = sa[i].ekid;
         uint16_t i_akid = sa[i].akid;
-        
+
         if(i_ekid == i_akid)
         {
             status = CRYPTO_LIB_ERR_KEY_VALIDATION;
@@ -585,7 +585,7 @@ int32_t key_validation(void)
             printf(KRED "SA Key Validation FAILURE!\n");
             printf("Key Duplication: SA #%d, EKID: %d, AKID: %d\n", i, i_ekid, i_akid);
             printf("\n"RESET);
-#endif 
+#endif
             break;
         }
 
@@ -593,7 +593,7 @@ int32_t key_validation(void)
         {
             uint16_t j_ekid = sa[j].ekid;
             uint16_t j_akid = sa[j].akid;
-        
+
             if((i_ekid == j_ekid) || (i_ekid == j_akid) || (i_akid == j_ekid) || (i_akid == j_akid) || (j_ekid == j_akid))
             {
                 status = CRYPTO_LIB_ERR_KEY_VALIDATION;
@@ -619,7 +619,7 @@ int32_t sa_config(void)
     int use_internal = 1;
 
 #ifdef SA_FILE
-     use_internal = 0;
+    use_internal = 0;
 #endif
 
     if(use_internal)
@@ -643,19 +643,19 @@ int32_t sa_init(void)
 
     int use_internal = 1;
 
-    #ifdef SA_FILE
-        use_internal = 0;
-        status = sa_load_file();
-        if (status != CRYPTO_LIB_SUCCESS)  
-        {
-        #ifdef DEBUG
-            printf("SA Load Failure!\n");
-            printf("Falling back to in-memory SA!\n");
-            use_internal = 1;
-            status = CRYPTO_LIB_SUCCESS;
-        #endif 
-        }
-    #endif
+#ifdef SA_FILE
+    use_internal = 0;
+    status = sa_load_file();
+    if (status != CRYPTO_LIB_SUCCESS)
+    {
+#ifdef DEBUG
+        printf("SA Load Failure!\n");
+        printf("Falling back to in-memory SA!\n");
+        use_internal = 1;
+        status = CRYPTO_LIB_SUCCESS;
+#endif
+    }
+#endif
 
     if(use_internal)
     {
@@ -697,7 +697,7 @@ int32_t sa_init(void)
 #ifdef KEY_VALIDATION
         status = key_validation();
 #endif
-    }    
+    }
     return status;
 }
 
@@ -754,11 +754,11 @@ int32_t sa_get_operational_sa_from_gvcid_find_iv(uint8_t tfvn, uint16_t scid, ui
     {
         // If valid match found
         if ((sa[i].gvcid_blk.tfvn == tfvn) && (sa[i].gvcid_blk.scid == scid) &&
-            (sa[i].gvcid_blk.vcid == vcid) && (sa[i].sa_state == SA_OPERATIONAL) &&
-            (crypto_config.unique_sa_per_mapid == TC_UNIQUE_SA_PER_MAP_ID_FALSE ||
-             sa[i].gvcid_blk.mapid == mapid))
-             // only require MapID match is unique SA per MapID set (only relevant
-             // when using segmentation hdrs)
+                (sa[i].gvcid_blk.vcid == vcid) && (sa[i].sa_state == SA_OPERATIONAL) &&
+                (crypto_config.unique_sa_per_mapid == TC_UNIQUE_SA_PER_MAP_ID_FALSE ||
+                 sa[i].gvcid_blk.mapid == mapid))
+            // only require MapID match is unique SA per MapID set (only relevant
+            // when using segmentation hdrs)
         {
             *security_association = &sa[i];
 
@@ -773,7 +773,7 @@ int32_t sa_get_operational_sa_from_gvcid_find_iv(uint8_t tfvn, uint16_t scid, ui
             {
                 status = CRYPTO_LIB_ERR_NULL_ABM;
                 return status;
-            } 
+            }
 
 #ifdef SA_DEBUG
             printf("Valid operational SA found at index %d.\n", i);
@@ -793,8 +793,8 @@ void sa_mismatched_tfvn_error(int * i_p, int32_t* status, uint8_t tfvn, uint16_t
 {
     int i = *i_p;
     if ((sa[i].gvcid_blk.tfvn != tfvn) && (sa[i].gvcid_blk.scid == scid) &&
-                (sa[i].gvcid_blk.vcid == vcid) &&
-                (sa[i].gvcid_blk.mapid == mapid && sa[i].sa_state == SA_OPERATIONAL))
+            (sa[i].gvcid_blk.vcid == vcid) &&
+            (sa[i].gvcid_blk.mapid == mapid && sa[i].sa_state == SA_OPERATIONAL))
     {
 #ifdef SA_DEBUG
         printf(KRED "An operational SA was found - but mismatched tfvn.\n" RESET);
@@ -811,8 +811,8 @@ void sa_mismatched_scid(int* i_p, int32_t* status, uint8_t tfvn, uint16_t scid, 
 {
     int i = *i_p;
     if ((sa[i].gvcid_blk.tfvn == tfvn) && (sa[i].gvcid_blk.scid != scid) &&
-                (sa[i].gvcid_blk.vcid == vcid) &&
-                (sa[i].gvcid_blk.mapid == mapid && sa[i].sa_state == SA_OPERATIONAL))
+            (sa[i].gvcid_blk.vcid == vcid) &&
+            (sa[i].gvcid_blk.mapid == mapid && sa[i].sa_state == SA_OPERATIONAL))
     {
 #ifdef SA_DEBUG
         printf(KRED "An operational SA was found - but mismatched scid.\n" RESET);
@@ -829,8 +829,8 @@ void sa_mismatched_vcid(int* i_p, int32_t* status, uint8_t tfvn, uint16_t scid, 
 {
     int i = *i_p;
     if ((sa[i].gvcid_blk.tfvn == tfvn) && (sa[i].gvcid_blk.scid == scid) &&
-                (sa[i].gvcid_blk.vcid != vcid) &&
-                (sa[i].gvcid_blk.mapid == mapid && sa[i].sa_state == SA_OPERATIONAL))
+            (sa[i].gvcid_blk.vcid != vcid) &&
+            (sa[i].gvcid_blk.mapid == mapid && sa[i].sa_state == SA_OPERATIONAL))
     {
 #ifdef SA_DEBUG
         printf(KRED "An operational SA was found - but mismatched vcid.\n" RESET);
@@ -845,8 +845,8 @@ void sa_mismatched_mapid(int* i_p, int32_t* status, uint8_t tfvn, uint16_t scid,
 {
     int i = *i_p;
     if ((sa[i].gvcid_blk.tfvn == tfvn) && (sa[i].gvcid_blk.scid == scid) &&
-                (sa[i].gvcid_blk.vcid == vcid) &&
-                (sa[i].gvcid_blk.mapid != mapid && sa[i].sa_state == SA_OPERATIONAL))
+            (sa[i].gvcid_blk.vcid == vcid) &&
+            (sa[i].gvcid_blk.mapid != mapid && sa[i].sa_state == SA_OPERATIONAL))
     {
 #ifdef SA_DEBUG
         printf(KRED "An operational SA was found - but mismatched mapid.\n" RESET);
@@ -860,8 +860,8 @@ void sa_non_operational_sa(int* i_p, int32_t* status, uint8_t tfvn, uint16_t sci
 {
     int i = *i_p;
     if ((sa[i].gvcid_blk.tfvn == tfvn) && (sa[i].gvcid_blk.scid == scid) &&
-        (sa[i].gvcid_blk.vcid == vcid) &&
-        (sa[i].gvcid_blk.mapid == mapid && sa[i].sa_state != SA_OPERATIONAL))
+            (sa[i].gvcid_blk.vcid == vcid) &&
+            (sa[i].gvcid_blk.mapid == mapid && sa[i].sa_state != SA_OPERATIONAL))
     {
 #ifdef SA_DEBUG
         printf(KRED "A valid but non-operational SA was found: SPI: %d.\n" RESET, sa[i].spi);
@@ -906,31 +906,31 @@ int32_t sa_get_operational_sa_from_gvcid_generate_error(int32_t* status, uint8_t
             if(status != CRYPTO_LIB_SUCCESS)
             {
                 sa_debug_block(tfvn, scid, vcid, mapid);
-                return *status;   
+                return *status;
             }
             sa_mismatched_scid(&i, status, tfvn, scid, vcid, mapid);
             if(status != CRYPTO_LIB_SUCCESS)
             {
                 sa_debug_block(tfvn, scid, vcid, mapid);
-                return *status;   
+                return *status;
             }
             sa_mismatched_vcid(&i, status, tfvn, scid, vcid, mapid);
             if(status != CRYPTO_LIB_SUCCESS)
             {
                 sa_debug_block(tfvn, scid, vcid, mapid);
-                return *status;   
+                return *status;
             }
             sa_mismatched_mapid(&i, status, tfvn, scid, vcid, mapid);
             if(status != CRYPTO_LIB_SUCCESS)
             {
                 sa_debug_block(tfvn, scid, vcid, mapid);
-                return *status;   
+                return *status;
             }
             sa_non_operational_sa(&i, status, tfvn, scid, vcid, mapid);
             if(status != CRYPTO_LIB_SUCCESS)
             {
                 sa_debug_block(tfvn, scid, vcid, mapid);
-                return *status;   
+                return *status;
             }
         }
     }
@@ -947,7 +947,7 @@ int32_t sa_get_operational_sa_from_gvcid_generate_error(int32_t* status, uint8_t
  * @return int32: Success/Failure
  **/
 static int32_t sa_get_operational_sa_from_gvcid(uint8_t tfvn, uint16_t scid, uint16_t vcid, uint8_t mapid,
-                                           SecurityAssociation_t** security_association)
+        SecurityAssociation_t** security_association)
 {
     int32_t status = CRYPTO_LIB_ERR_NO_OPERATIONAL_SA;
 
@@ -992,7 +992,7 @@ static int32_t sa_start(TC_t* tc_frame)
             count = 2;
 
             for (x = 0; x <= ((sdls_frame.pdu.pdu_len - 2) / 4); x++)
-            { // Read in GVCID
+            {   // Read in GVCID
                 gvcid.tfvn = (sdls_frame.pdu.data[count] >> 4);
                 gvcid.scid = (sdls_frame.pdu.data[count] << 12) | (sdls_frame.pdu.data[count + 1] << 4) |
                              (sdls_frame.pdu.data[count + 2] >> 4);
@@ -1008,7 +1008,7 @@ static int32_t sa_start(TC_t* tc_frame)
 
                 // TC
                 if (gvcid.vcid != tc_frame->tc_header.vcid)
-                { // Clear all GVCIDs for provided SPI
+                {   // Clear all GVCIDs for provided SPI
                     if (gvcid.mapid == TYPE_TC)
                     {
                         sa[spi].gvcid_blk.tfvn = 0;
@@ -1018,7 +1018,7 @@ static int32_t sa_start(TC_t* tc_frame)
                     }
                     // Write channel to SA
                     if (gvcid.mapid != TYPE_MAP)
-                    { // TC
+                    {   // TC
                         sa[spi].gvcid_blk.tfvn = gvcid.tfvn;
                         sa[spi].gvcid_blk.scid = gvcid.scid;
                         sa[spi].gvcid_blk.mapid = gvcid.mapid;
@@ -1030,11 +1030,11 @@ static int32_t sa_start(TC_t* tc_frame)
                 }
                 // TM
                 if (gvcid.vcid != tm_frame_pri_hdr.vcid) // TODO Check this tm_frame.tm_header.vcid)
-                { // Clear all GVCIDs for provided SPI
+                {   // Clear all GVCIDs for provided SPI
                     if (gvcid.mapid == TYPE_TM)
                     {
                         for (i = 0; i < NUM_GVCID; i++)
-                        { // TM
+                        {   // TM
                             sa[spi].gvcid_blk.tfvn = 0;
                             sa[spi].gvcid_blk.scid = 0;
                             sa[spi].gvcid_blk.vcid = 0;
@@ -1043,7 +1043,7 @@ static int32_t sa_start(TC_t* tc_frame)
                     }
                     // Write channel to SA
                     if (gvcid.mapid != TYPE_MAP)
-                    { // TM
+                    {   // TM
                         sa[spi].gvcid_blk.tfvn = gvcid.tfvn; // Hope for the best
                         sa[spi].gvcid_blk.scid = gvcid.scid; // Hope for the best
                         sa[spi].gvcid_blk.vcid = gvcid.vcid; // Hope for the best
@@ -1178,7 +1178,7 @@ static int32_t sa_rekey(void)
     if (spi < NUM_SA)
     {
         if (sa[spi].sa_state == SA_UNKEYED)
-        { // Encryption Key
+        {   // Encryption Key
             sa[spi].ekid = ((uint8_t)sdls_frame.pdu.data[count] << 8) | (uint8_t)sdls_frame.pdu.data[count + 1];
             count = count + 2;
 
@@ -1191,7 +1191,7 @@ static int32_t sa_rekey(void)
             printf("SPI %d IV updated to: 0x", spi);
 #endif
             if (sa[spi].shivf_len > 0)
-            { // Set IV - authenticated encryption
+            {   // Set IV - authenticated encryption
                 for (x = count; x < (sa[spi].shivf_len + count); x++)
                 {
                     // TODO: Uncomment once fixed in ESA implementation
@@ -1203,8 +1203,8 @@ static int32_t sa_rekey(void)
                 }
             }
             else
-            { // Set SN
-              // TODO
+            {   // Set SN
+                // TODO
             }
 #ifdef PDU_DEBUG
             printf("\n");
@@ -1256,7 +1256,7 @@ static int32_t sa_expire(void)
     if (spi < NUM_SA)
     {
         if (sa[spi].sa_state == SA_KEYED)
-        { // Change to 'Unkeyed' state
+        {   // Change to 'Unkeyed' state
             sa[spi].sa_state = SA_UNKEYED;
 #ifdef PDU_DEBUG
             printf("SPI %d changed to UNKEYED state. \n", spi);
@@ -1366,7 +1366,7 @@ static int32_t sa_delete(void)
     if (spi < NUM_SA)
     {
         if (sa[spi].sa_state == SA_UNKEYED)
-        { // Change to 'None' state
+        {   // Change to 'None' state
             sa[spi].sa_state = SA_NONE;
 #ifdef PDU_DEBUG
             printf("SPI %d changed to NONE state. \n", spi);
@@ -1411,7 +1411,7 @@ static int32_t sa_setARSN(void)
         printf("SPI %d IV updated to: 0x", spi);
 #endif
         if (sa[spi].shivf_len > 0)
-        { // Set IV - authenticated encryption
+        {   // Set IV - authenticated encryption
             for (x = 0; x < IV_SIZE; x++)
             {
                 *(sa[spi].iv + x) = (uint8_t)sdls_frame.pdu.data[x + 2];
@@ -1422,8 +1422,8 @@ static int32_t sa_setARSN(void)
             Crypto_increment(sa[spi].iv, sa[spi].shivf_len);
         }
         else
-        { // Set SN
-          // TODO
+        {   // Set SN
+            // TODO
         }
 #ifdef PDU_DEBUG
         printf("\n");
@@ -1483,7 +1483,7 @@ static int32_t sa_setARSNW(void)
 static int32_t sa_status(uint8_t* ingest)
 {
     if(ingest == NULL) return CRYPTO_LIB_ERROR;
-    
+
     // Local variables
     int count = 0;
     uint16_t spi = 0x0000;

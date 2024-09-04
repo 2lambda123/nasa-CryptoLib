@@ -36,7 +36,7 @@
 ** Definitions
 */
 typedef struct
-{                       // Global Virtual Channel ID / Global MAP ID
+{   // Global Virtual Channel ID / Global MAP ID
     uint8_t tfvn : 4;   // Transfer Frame Version Number
     uint16_t scid : 16; // Spacecraft ID
     uint16_t vcid : 6;  // Virtual Channel ID
@@ -239,14 +239,14 @@ typedef struct
 {
     uint8_t tfvn : 2;   // Transfer Frame Version Number
     uint8_t bypass : 1; // Bypass
-                        // 0 = Type A: Sequence Check, Acknowledgement
-                        // 1 = Type B: Checks are bypassed
+    // 0 = Type A: Sequence Check, Acknowledgement
+    // 1 = Type B: Checks are bypassed
     uint8_t cc : 1;     // Control Command
-                        // 0 = Type D: Transfer Frame is Data Unit
-                        // 1 = Type C: Contron Command (for COP)
+    // 0 = Type D: Transfer Frame is Data Unit
+    // 1 = Type C: Contron Command (for COP)
     uint8_t spare : 2;  // Reserved Spare - Shall be 00
     uint16_t scid : 10; // Spacecraft ID
-                        // Master Channel ID (MCID) = TFVN + SCID
+    // Master Channel ID (MCID) = TFVN + SCID
     uint8_t vcid : 6;   // Virtual Channel ID
     uint16_t fl : 10;   // The whole transfer frame length (max 1024)
     uint8_t fsn : 8;    // Frame sequence number, also N(S), zeroed on Type-B frames
@@ -256,7 +256,8 @@ typedef struct
 
 typedef struct
 {
-    uint8_t sh : TC_SH_SIZE;  // Segment Header
+uint8_t sh :
+    TC_SH_SIZE;  // Segment Header
     uint16_t spi;             // Security Parameter Index
     uint8_t iv[IV_SIZE];      // Initialization Vector for encryption
     uint8_t iv_field_len;
@@ -332,7 +333,7 @@ typedef struct
 /*
 ** Operational Control Field definitions
 ** Telemetry frames can reply with either of these in their OCF field:
-** 1) A Communications Control Link Word -or- 
+** 1) A Communications Control Link Word -or-
 ** 2) A Frame Security Report
 */
 
@@ -387,17 +388,17 @@ typedef struct
     uint8_t vcfc : 8;   // Virtual Channel Frame Count (modulo-256)
     uint8_t tfsh : 1;   // Transfer Frame Secondary Header
     uint8_t sf : 1;     // Sync Flag
-                        // 0 = Payload is either idle data or octet synchronized forward-ordered packets
-                        // 1 = Data is a virtual channel access data unit
+    // 0 = Payload is either idle data or octet synchronized forward-ordered packets
+    // 1 = Data is a virtual channel access data unit
     uint8_t pof : 1;    // Packet Order Flag
-                        // 0 = Shall be set to 0
-                        // Sync Flag 1 = Undefined
+    // 0 = Shall be set to 0
+    // Sync Flag 1 = Undefined
     uint8_t slid : 2;   // Segment Length ID
-                        // Sync Flag 0 = Shall be 11
-                        // Sync Flag 1 = Undefined
+    // Sync Flag 0 = Shall be 11
+    // Sync Flag 1 = Undefined
     uint16_t fhp : 11;  // First Header Pointer
-                        // Sync Flag 0 = Contains position of the first byte of the first packet in the data field
-                        // Sync Flag 1 = undefined
+    // Sync Flag 0 = Contains position of the first byte of the first packet in the data field
+    // Sync Flag 1 = undefined
     // uint8_t	tfshvn	:2;			// Transfer Frame Secondary Header Version Number - shall be 00
     // uint8_t	tfshlen	:6;			// TFSH Length (max 64 Bytes)
 } TM_FramePrimaryHeader_t;
@@ -438,25 +439,25 @@ typedef struct
 typedef struct
 {
     uint8_t tfvn : 2;   // Transfer Frame Version Number
-                        // Shall be set to '01' (732.0b4 Section 4.1.2.2.2)
+    // Shall be set to '01' (732.0b4 Section 4.1.2.2.2)
     uint16_t scid : 8;  // Spacecraft ID
     uint8_t vcid : 6;   // Virtual Channel ID
-                        // To be all zeros if only one VC used (732.0b4 Section 4.1.2.3)
+    // To be all zeros if only one VC used (732.0b4 Section 4.1.2.3)
     long vcfc : 24;  // Virtual Channel Frame Count (modulo-16,777,216)
     /* Begin TF Signalling Field */
     uint8_t rf : 1;     // Replay Flag
     uint8_t sf : 1;     // VC Frame Count Usgae Flag
-                        // 0 = Payload is either idle data or octet synchronized forward-ordered packets
-                        // 1 = Data is a virtual channel access data unit
+    // 0 = Payload is either idle data or octet synchronized forward-ordered packets
+    // 1 = Data is a virtual channel access data unit
     uint8_t spare : 2;  // Reserved Spare
-                        // 0 = Shall be set to 0
-                        // Sync Flag 1 = Undefined
+    // 0 = Shall be set to 0
+    // Sync Flag 1 = Undefined
     uint8_t vfcc : 2;   // VC Frame Count cycle
-                        // Sync Flag 0 = Shall be 11
-                        // Sync Flag 1 = Undefined
+    // Sync Flag 0 = Shall be 11
+    // Sync Flag 1 = Undefined
     uint16_t fhp : 11;  // First Header Pointer
-                        // Sync Flag 0 = Contains position of the first byte of the first packet in the data field
-                        // Sync Flag 1 = undefined
+    // Sync Flag 0 = Contains position of the first byte of the first packet in the data field
+    // Sync Flag 1 = undefined
 } AOS_FramePrimaryHeader_t;
 #define AOS_FRAME_PRIMARYHEADER_SIZE (sizeof(AOS_FramePrimaryHeader_t))
 

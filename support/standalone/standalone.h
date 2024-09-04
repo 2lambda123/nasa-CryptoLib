@@ -91,18 +91,18 @@ extern "C"
 /*
 ** Structures
 */
-typedef struct 
+typedef struct
 {
-   int sockfd;
-   char* ip_address;
-   int port;
-   struct sockaddr_in saddr;
+    int sockfd;
+    char* ip_address;
+    int port;
+    struct sockaddr_in saddr;
 } udp_info_t;
 
 typedef struct
 {
-   udp_info_t read;
-   udp_info_t write;
+    udp_info_t read;
+    udp_info_t write;
 } udp_interface_t;
 
 

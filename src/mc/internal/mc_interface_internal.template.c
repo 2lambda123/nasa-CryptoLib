@@ -51,7 +51,7 @@ McInterface get_mc_interface_internal(void)
 static int32_t mc_initialize(void)
 {
     int32_t status = CRYPTO_LIB_SUCCESS;
-    
+
     /* Open log */
     mc_file_ptr = fopen(MC_LOG_PATH, "a");
     if (mc_file_ptr == NULL)
@@ -59,7 +59,7 @@ static int32_t mc_initialize(void)
         status = CRYPTO_LIB_ERR_MC_INIT;
         printf(KRED "ERROR: Monitoring and control initialization - internal failed\n" RESET);
     }
-    
+
     return status;
 }
 
@@ -73,16 +73,16 @@ static void mc_log(int32_t error_code)
     /* Write to log if error code is valid */
     if (error_code != CRYPTO_LIB_SUCCESS)
     {
-        fprintf(mc_file_ptr, "[%d%d%d,%d:%d:%d], %d\n", 
-            timeinfo->tm_year + 1900, timeinfo->tm_mon + 1,  timeinfo->tm_mday, 
-            timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec, error_code);
-        
+        fprintf(mc_file_ptr, "[%d%d%d,%d:%d:%d], %d\n",
+                timeinfo->tm_year + 1900, timeinfo->tm_mon + 1,  timeinfo->tm_mday,
+                timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec, error_code);
+
         /* Also print error if debug enabled */
-        #ifdef DEBUG
-            printf("MC_Log: Error, [%d%d%d,%d:%d:%d], %d\n", 
-            timeinfo->tm_year + 1900, timeinfo->tm_mon + 1,  timeinfo->tm_mday, 
-            timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec, error_code);
-        #endif
+#ifdef DEBUG
+        printf("MC_Log: Error, [%d%d%d,%d:%d:%d], %d\n",
+               timeinfo->tm_year + 1900, timeinfo->tm_mon + 1,  timeinfo->tm_mday,
+               timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec, error_code);
+#endif
     }
 
     return;

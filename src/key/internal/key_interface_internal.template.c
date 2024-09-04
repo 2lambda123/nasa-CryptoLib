@@ -42,12 +42,12 @@ KeyInterface get_key_interface_internal(void)
 static crypto_key_t* get_key(uint32_t key_id)
 {
     crypto_key_t* key_ptr = NULL;
-    
+
     if(key_id < NUM_KEYS)
     {
         key_ptr = &key_ring[key_id];
     }
-    
+
     return key_ptr;
 }
 
@@ -207,7 +207,7 @@ static int32_t key_init(void)
     key_ring[3].value[31] = 0x3F;
     key_ring[3].key_len = 32;
     key_ring[3].key_state = KEY_ACTIVE;
-    
+
     key_ring[4].value[0] = 0x40;
     key_ring[4].value[1] = 0x41;
     key_ring[4].value[2] = 0x42;
@@ -599,9 +599,9 @@ static int32_t key_init(void)
     key_ring[136].key_len = 32;
     key_ring[136].key_state = KEY_DEACTIVATED;
 
-    #ifdef DEBUG
-        printf(KGRN "Key internal interface intialized \n" RESET);
-    #endif
+#ifdef DEBUG
+    printf(KGRN "Key internal interface intialized \n" RESET);
+#endif
 
     return status;
 }

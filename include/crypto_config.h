@@ -190,15 +190,15 @@
 // TC Behavior Defines
 #define TC_SDLS_EP_VCID                                                                                                \
     4 // VCID which has SDLS PDUs (JPL uses VCIDs to determine TC type, there is no space packet layer with APIDs). Set
-      // to -1 if uses SP APIDs.
+// to -1 if uses SP APIDs.
 
 // TM Behavior Defines
 #define TM_CADU_HAS_ASM 1 // Skip 0x1acffc1d at beginning of each frame
 // TM CADU based on ASM, currently only holds non-turbo ASM
 #ifdef TM_CADU_HAS_ASM
-   #define TM_CADU_SIZE (TM_FRAME_DATA_SIZE + 6)
+#define TM_CADU_SIZE (TM_FRAME_DATA_SIZE + 6)
 #else
-   #define TM_CADU_SIZE TM_FRAME_DATA_SIZE
+#define TM_CADU_SIZE TM_FRAME_DATA_SIZE
 #endif
 
 // Logic Behavior Defines

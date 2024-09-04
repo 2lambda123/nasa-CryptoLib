@@ -206,7 +206,7 @@ int32_t Crypto_SA_readARSN(uint8_t* ingest)
         return CRYPTO_LIB_ERROR; // Error -- unable to get SA from SPI.
     }
     if (sa_ptr->shivf_len > 0)
-    { // Set IV - authenticated encryption
+    {   // Set IV - authenticated encryption
         for (x = 0; x < sa_ptr->shivf_len - 1; x++)
         {
             ingest[count++] = *(sa_ptr->iv + x);
@@ -214,7 +214,7 @@ int32_t Crypto_SA_readARSN(uint8_t* ingest)
 
         // TODO: Do we need this?
         if (*(sa_ptr->iv + sa_ptr->shivf_len - 1) > 0)
-        { // Adjust to report last received, not expected
+        {   // Adjust to report last received, not expected
             ingest[count++] = *(sa_ptr->iv + sa_ptr->shivf_len - 1) - 1;
         }
         else
@@ -247,7 +247,7 @@ int32_t Crypto_SA_readARSN(uint8_t* ingest)
  * @return int32: Success/Failure
  **/
 int32_t Crypto_MC_resetalarm(void)
-{ // Reset all alarm flags
+{   // Reset all alarm flags
     report.af = 0;
     report.bsnf = 0;
     report.bmacf = 0;

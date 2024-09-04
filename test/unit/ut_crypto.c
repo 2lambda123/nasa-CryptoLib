@@ -42,7 +42,7 @@ UTEST(CRYPTO_C, CALC_CRC16)
     uint16_t crc = 0x00;
     uint16_t validated_crc = 0xA61A;
     crc = Crypto_Calc_CRC16(data_b, size);
-    
+
     //printf("CRC = 0x%04x\n", crc);
     ASSERT_EQ(crc, validated_crc);
 }
@@ -54,17 +54,17 @@ UTEST(CRYPTO_C, BAD_CC_FLAG)
 {
     remove("sa_save_file.bin");
     // Setup & Initialize CryptoLib
-    Crypto_Config_CryptoLib(KEY_TYPE_INTERNAL, MC_TYPE_INTERNAL, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_LIBGCRYPT, 
+    Crypto_Config_CryptoLib(KEY_TYPE_INTERNAL, MC_TYPE_INTERNAL, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_LIBGCRYPT,
                             IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_TRUE, TC_HAS_PUS_HDR,
                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_FALSE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
     //Crypto_Config_Add_Gvcid_Managed_Parameter(0, 0x0003, 0, TC_NO_FECF, TC_NO_SEGMENT_HDRS, TC_OCF_NA, 1024, AOS_FHEC_NA, AOS_IZ_NA, 0);
     //Crypto_Config_Add_Gvcid_Managed_Parameter(0, 0x0003, 1, TC_NO_FECF, TC_NO_SEGMENT_HDRS, TC_OCF_NA, 1024, AOS_FHEC_NA, AOS_IZ_NA, 0);
-    GvcidManagedParameters_t TC_UT_Managed_Parameters = {0, 0x0003, 0, TC_NO_FECF, AOS_FHEC_NA, AOS_IZ_NA, 0, TC_NO_SEGMENT_HDRS, 1024, TC_OCF_NA, 1};  
+    GvcidManagedParameters_t TC_UT_Managed_Parameters = {0, 0x0003, 0, TC_NO_FECF, AOS_FHEC_NA, AOS_IZ_NA, 0, TC_NO_SEGMENT_HDRS, 1024, TC_OCF_NA, 1};
     Crypto_Config_Add_Gvcid_Managed_Parameters(TC_UT_Managed_Parameters);
     TC_UT_Managed_Parameters.vcid = 1;
     Crypto_Config_Add_Gvcid_Managed_Parameters(TC_UT_Managed_Parameters);
-    
+
     Crypto_Init();
     char* raw_tc_sdls_ping_h = "3003002000ff000100001880d2c9000e197f0b001b0004000400003040d95ea61a";
     char* raw_tc_sdls_ping_b = NULL;
@@ -94,14 +94,14 @@ UTEST(CRYPTO_C, PDU_SWITCH)
     remove("sa_save_file.bin");
     int32_t status = CRYPTO_LIB_ERROR;
 
-    Crypto_Config_CryptoLib(KEY_TYPE_INTERNAL, MC_TYPE_INTERNAL, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_LIBGCRYPT, 
+    Crypto_Config_CryptoLib(KEY_TYPE_INTERNAL, MC_TYPE_INTERNAL, SA_TYPE_INMEMORY, CRYPTOGRAPHY_TYPE_LIBGCRYPT,
                             IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_TRUE, TC_HAS_PUS_HDR,
                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_FALSE, TC_UNIQUE_SA_PER_MAP_ID_FALSE,
                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
     // Crypto_Config_Add_Gvcid_Managed_Parameter(0, 0x0003, 0, TC_HAS_FECF, TC_HAS_SEGMENT_HDRS, TC_OCF_NA, 1024, AOS_FHEC_NA, AOS_IZ_NA, 0);
     // Crypto_Config_Add_Gvcid_Managed_Parameter(0, 0x0003, 1, TC_HAS_FECF, TC_HAS_SEGMENT_HDRS, TC_OCF_NA, 1024, AOS_FHEC_NA, AOS_IZ_NA, 0);
-    
-    GvcidManagedParameters_t TC_UT_Managed_Parameters = {0, 0x0003, 0, TC_HAS_FECF, AOS_FHEC_NA, AOS_IZ_NA, 0, TC_HAS_SEGMENT_HDRS, 1024, TC_OCF_NA, 1};  
+
+    GvcidManagedParameters_t TC_UT_Managed_Parameters = {0, 0x0003, 0, TC_HAS_FECF, AOS_FHEC_NA, AOS_IZ_NA, 0, TC_HAS_SEGMENT_HDRS, 1024, TC_OCF_NA, 1};
     Crypto_Config_Add_Gvcid_Managed_Parameters(TC_UT_Managed_Parameters);
     TC_UT_Managed_Parameters.vcid = 1;
     Crypto_Config_Add_Gvcid_Managed_Parameters(TC_UT_Managed_Parameters);
@@ -248,7 +248,7 @@ UTEST(CRYPTO_C, PDU_SWITCH)
     ASSERT_EQ(status, CRYPTO_LIB_SUCCESS);
 
 // TODO:  (RB) Disabled for now.  Key Inventory needs to be re-worked. - Not currently using EP
-    
+
     // sdls_frame.pdu.pid = 7;
     // status = Crypto_PDU(ingest, &tc_frame);
     // ASSERT_EQ(status, CRYPTO_LIB_SUCCESS);
@@ -290,7 +290,7 @@ UTEST(CRYPTO_C, GET_ACS_ALGO)
     Crypto_Init_TC_Unit_Test();
     int32_t libgcrypt_algo = -1;
     uint8_t crypto_algo = CRYPTO_MAC_CMAC_AES256;
-    
+
     //// Convert CRYPTOAES enum to GCRY_MAC_CMAC_AES
     //libgcrypt_algo = cryptography_if->cryptography_get_acs_algo(crypto_algo);
     //ASSERT_EQ(libgcrypt_algo, GCRY_MAC_CMAC_AES);
@@ -329,7 +329,7 @@ UTEST(CRYPTO_C, GET_ECS_ALGO)
     Crypto_Init_TC_Unit_Test();
     int32_t libgcrypt_algo = -1;
     int8_t crypto_algo = CRYPTO_CIPHER_AES256_GCM;
-    
+
     // Convert CRYPTOAES enum to GCRY_CIPHER_AES256
     //libgcrypt_algo = cryptography_if->cryptography_get_ecs_algo(crypto_algo);
     //ASSERT_EQ(libgcrypt_algo, GCRY_CIPHER_AES256);

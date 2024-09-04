@@ -13,23 +13,23 @@
  */
 
 /**
- * @brief Unit Test: Test 
- * 
- * Test TLS connection 
+ * @brief Unit Test: Test
+ *
+ * Test TLS connection
  *1) Required development packages: sudo yum install mariadb-connector-c-devel.x86_64
- * 
+ *
   2)IMPORTANT:The .pem files & MySQL MUST be configured and on the host before running this test
  * using this test refer to the guide:https://dev.mysql.com/doc/refman/8.0/en/encrypted-connections.html
- * 
+ *
  The program requires these files to establish a TLS connection:
  i) ssl_cert=/etc/pki/tls/certs/ammos-server-cert.pem
  ii) ssl_key=/etc/pki/tls/private/ammos-server-key.pem
  iii) ssl_ca=/etc/pki/tls/certs/ammos-ca-bundle.crt
-  3)IMPORTANT:Build with "cmake -DSA_MARIADB=ON ." 
- * 
+  3)IMPORTANT:Build with "cmake -DSA_MARIADB=ON ."
+ *
  IMPORTANT:The database must have similar configuration for this test to succeed:
 MariaDB server to use the standard host-based <your_server_hots_name>.
-In our case host was asec-cmdenc-dev2.jpl.nasa.gov  
+In our case host was asec-cmdenc-dev2.jpl.nasa.gov
 This was done by editing the server configuration file -- /etc/my.cnf.d/mariadb.server -- and adding the following options:
 
  * For example:
@@ -37,15 +37,15 @@ ssl_cert=/etc/pki/tls/certs/ammos-server-cert.pem
 ssl_key=/etc/pki/tls/private/ammos-server-key.pem
 ssl_ca=/etc/pki/tls/certs/ammos-ca-bundle.crt
 
-This user is setup to allow normal password access. 
-This user is allowed to access MariaDB on both the localhost and asec-cmdenc-dev2.jpl.nasa.gov hostnames, 
+This user is setup to allow normal password access.
+This user is allowed to access MariaDB on both the localhost and asec-cmdenc-dev2.jpl.nasa.gov hostnames,
 and *can* use TLS to connect, but is NOT REQUIRED to.  TLS access requires the use of the full hostname, since the server certificate will not validate for 'localhost'.
 
 To connect using TLS (encrypted connection) from the command line client:
 
 mysql -u testuser1 -p -h asec-cmdenc-dev2.jpl.nasa.gov --ssl-ca=/etc/pki/tls/certs/ammos-ca-bundle.crt --ssl-verify-server-cert
 Login: testuser1
-Password: <PASSWORD> 
+Password: <PASSWORD>
  **/
 
 #include <stdio.h>
@@ -63,25 +63,25 @@ Password: <PASSWORD>
 #include <mysql/mysql.h>
 
 #ifdef KMC_MDB_RH
-    #define CLIENT_CERTIFICATE "/certs/redhat-cert.pem"
-    #define CLIENT_CERTIFICATE_KEY "/certs/redhat-key.pem"
+#define CLIENT_CERTIFICATE "/certs/redhat-cert.pem"
+#define CLIENT_CERTIFICATE_KEY "/certs/redhat-key.pem"
 #else
-    /* KMC_MDB_DB */
-    #define CLIENT_CERTIFICATE "/certs/debian-cert.pem"
-    #define CLIENT_CERTIFICATE_KEY "/certs/debian-key.pem"
+/* KMC_MDB_DB */
+#define CLIENT_CERTIFICATE "/certs/debian-cert.pem"
+#define CLIENT_CERTIFICATE_KEY "/certs/debian-key.pem"
 #endif
 
 
 
 int32_t Crypto_Init_TC_Unit_Test_For_DB(void);
-/*Attempting to test a connection similar to command line authentication: 
+/*Attempting to test a connection similar to command line authentication:
 mysql -u testuser1 -p -h asec-cmdenc-dev2.jpl.nasa.gov --ssl-ca=/etc/pki/tls/certs/ammos-ca-bundle.crt --ssl-verify-server-cert
 However using the MySQL's C API*/
-//<PASSWORD> - replace with actual password or test will fail. 
+//<PASSWORD> - replace with actual password or test will fail.
 UTEST(MARIA_DB_CONNECTION_TESTS, TLS_TEST) {
     printf("START mariadb connection, TLS test() \n");
     int status = 0;
-    /*connection input parameters. 
+    /*connection input parameters.
      Note: username, pass, and paths may differ on your system*/
     char* mysql_username = "testuser1";
     char* password = "l0ngp@ssWord"; //replace with actual password or test will fail.
@@ -108,22 +108,22 @@ UTEST(MARIA_DB_CONNECTION_TESTS, TLS_TEST) {
 /*Helper Functions:*/
 
 /*
- * Note: SA_TYPE_INMEMORY was change to SA_TYPE_MARIADB for this test only. 
+ * Note: SA_TYPE_INMEMORY was change to SA_TYPE_MARIADB for this test only.
  */
 int32_t Crypto_Init_TC_Unit_Test_For_DB(void) {
     int32_t status = CRYPTO_LIB_SUCCESS;
 
-    Crypto_Config_CryptoLib(KEY_TYPE_INTERNAL, MC_TYPE_INTERNAL, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_LIBGCRYPT, 
+    Crypto_Config_CryptoLib(KEY_TYPE_INTERNAL, MC_TYPE_INTERNAL, SA_TYPE_MARIADB, CRYPTOGRAPHY_TYPE_LIBGCRYPT,
                             IV_INTERNAL, CRYPTO_TC_CREATE_FECF_TRUE, TC_PROCESS_SDLS_PDUS_TRUE, TC_HAS_PUS_HDR,
                             TC_IGNORE_SA_STATE_FALSE, TC_IGNORE_ANTI_REPLAY_FALSE, TC_UNIQUE_SA_PER_MAP_ID_TRUE,
                             TC_CHECK_FECF_TRUE, 0x3F, SA_INCREMENT_NONTRANSMITTED_IV_TRUE);
     //Crypto_Config_Add_Gvcid_Managed_Parameter(0, 0x0003, 0, TC_HAS_FECF, TC_HAS_SEGMENT_HDRS, TC_OCF_NA, 1024, AOS_FHEC_NA, AOS_IZ_NA, 0);
     //Crypto_Config_Add_Gvcid_Managed_Parameter(0, 0x0003, 1, TC_HAS_FECF, TC_HAS_SEGMENT_HDRS, TC_OCF_NA, 1024, AOS_FHEC_NA, AOS_IZ_NA, 0);
-    GvcidManagedParameters_t TC_UT_Managed_Parameters = {0, 0x0003, 0, TC_HAS_FECF, AOS_FHEC_NA, AOS_IZ_NA, 0, TC_HAS_SEGMENT_HDRS, 1024, TC_OCF_NA, 1};  
+    GvcidManagedParameters_t TC_UT_Managed_Parameters = {0, 0x0003, 0, TC_HAS_FECF, AOS_FHEC_NA, AOS_IZ_NA, 0, TC_HAS_SEGMENT_HDRS, 1024, TC_OCF_NA, 1};
     Crypto_Config_Add_Gvcid_Managed_Parameters(TC_UT_Managed_Parameters);
     TC_UT_Managed_Parameters.vcid = 1;
     Crypto_Config_Add_Gvcid_Managed_Parameters(TC_UT_Managed_Parameters);
-    
+
     status = Crypto_Init();
     return status;
 }

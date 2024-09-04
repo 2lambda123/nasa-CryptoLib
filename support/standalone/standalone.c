@@ -61,15 +61,15 @@ void crypto_standalone_to_lower(char* str)
 void crypto_standalone_print_help(void)
 {
     printf(CRYPTO_PROMPT "command [args]\n"
-                         "----------------------------------------------------------------------\n"
-                         "exit                               - Exit app                         \n"
-                         "help                               - Display help                     \n"
-                         "noop                               - No operation command to device   \n"
-                         "reset                              - Reset CryptoLib                  \n"
-                         "tc                                 - Toggle TC debug prints           \n"
-                         "tm                                 - Toggle TM debug prints           \n"
-                         "vcid #                             - Change active TC virtual channel \n"
-                         "\n");
+           "----------------------------------------------------------------------\n"
+           "exit                               - Exit app                         \n"
+           "help                               - Display help                     \n"
+           "noop                               - No operation command to device   \n"
+           "reset                              - Reset CryptoLib                  \n"
+           "tc                                 - Toggle TC debug prints           \n"
+           "tm                                 - Toggle TM debug prints           \n"
+           "vcid #                             - Change active TC virtual channel \n"
+           "\n");
 }
 
 int32_t crypto_standalone_get_command(const char* str)
@@ -151,7 +151,7 @@ int32_t crypto_standalone_process_command(int32_t cc, int32_t num_tokens, char* 
                 SaInterface sa_if = get_sa_interface_inmemory();
                 SecurityAssociation_t* test_association = NULL;
                 sa_if->sa_get_from_spi(vcid, &test_association);
-                
+
                 /* Handle special case for VCID */
                 if(vcid == 1)
                 {
@@ -160,8 +160,8 @@ int32_t crypto_standalone_process_command(int32_t cc, int32_t num_tokens, char* 
                 }
 
                 if ((test_association->sa_state == SA_OPERATIONAL) &&
-                    (test_association->gvcid_blk.mapid == TYPE_TC) &&
-                    (test_association->gvcid_blk.scid == SCID))
+                        (test_association->gvcid_blk.mapid == TYPE_TC) &&
+                        (test_association->gvcid_blk.scid == SCID))
                 {
                     tc_vcid = vcid;
                     printf("Changed active virtual channel (VCID) to %d \n", tc_vcid);
@@ -223,7 +223,7 @@ int32_t crypto_host_to_ip(const char * hostname, char* ip)
 {
     struct hostent *he;
     struct in_addr **addr_list;
-    
+
     if ( (he = gethostbyname( hostname ) ) == NULL )
     {
         return 1;
@@ -370,7 +370,7 @@ void *crypto_standalone_tc_apply(void* socks)
                 printf("\n");
             }
 
-/* Frame */
+            /* Frame */
 #ifdef CRYPTO_STANDALONE_HANDLE_FRAMING
             crypto_standalone_tc_frame(tc_apply_in, tc_in_len, tc_framed, &tc_out_len);
             memcpy(tc_apply_in, tc_framed, tc_out_len);
@@ -420,9 +420,9 @@ void *crypto_standalone_tc_apply(void* socks)
             if (!tc_out_ptr) free(tc_out_ptr);
             if (tc_debug == 1)
             {
-            #ifdef CRYPTO_STANDALONE_TC_APPLY_DEBUG
+#ifdef CRYPTO_STANDALONE_TC_APPLY_DEBUG
                 printf("\n");
-            #endif
+#endif
             }
         }
 
@@ -499,7 +499,7 @@ void crypto_standalone_spp_telem_or_idle(int32_t* status_p, uint8_t* tm_ptr, uin
     {
         spp_len = (((0xFFFF & tm_ptr[4]) << 8) | tm_ptr[5]) + 7;
 #ifdef CRYPTO_STANDALONE_TM_PROCESS_DEBUG
-        printf("crypto_standalone_tm_process - SPP[%d]: 0x", spp_len); 
+        printf("crypto_standalone_tm_process - SPP[%d]: 0x", spp_len);
         for (int i = 0; i < spp_len; i++)
         {
             printf("%02x", tm_ptr[i]);
@@ -507,7 +507,7 @@ void crypto_standalone_spp_telem_or_idle(int32_t* status_p, uint8_t* tm_ptr, uin
         printf("\n");
 #endif
         // Send all SPP telemetry packets
-        if (tm_ptr[0] == 0x08)  
+        if (tm_ptr[0] == 0x08)
         {
             status = sendto(tm_write_sock->sockfd, tm_ptr, spp_len, 0, (struct sockaddr*)&tm_write_sock->saddr, sizeof(tm_write_sock->saddr));
         }
@@ -567,7 +567,7 @@ void* crypto_standalone_tm_process(void* socks)
     udp_interface_t* tm_socks = (udp_interface_t*)socks;
     udp_info_t* tm_read_sock = &tm_socks->read;
     udp_info_t* tm_write_sock = &tm_socks->write;
-    
+
     uint8_t tm_process_in[TM_CADU_SIZE]; // Accounts for ASM automatically based on #def
     int tm_process_len = 0;
     uint16_t spp_len = 0;
@@ -622,7 +622,7 @@ void* crypto_standalone_tm_process(void* socks)
                     }
                 }
 
-/* Frame */
+                /* Frame */
 #ifdef CRYPTO_STANDALONE_HANDLE_FRAMING
 #ifdef TM_CADU_HAS_ASM
                 uint16_t spi = (0xFFFF & tm_process_in[11]) | tm_process_in[12];
@@ -635,9 +635,9 @@ void* crypto_standalone_tm_process(void* socks)
                 memcpy(tm_process_in, tm_framed, tm_framed_len);
                 tm_process_len = tm_framed_len;
                 tm_framed_len = 0;
-                
+
                 if (tm_debug == 1)
-                // Note: Need logic to allow broken packet assembly
+                    // Note: Need logic to allow broken packet assembly
                 {
                     printf("crypto_standalone_tm_process: 2 - beginning after first header pointer - deframed[%d]: 0x", tm_process_len);
                     for (int i = 0; i < tm_process_len; i++)
@@ -757,7 +757,7 @@ int main(int argc, char* argv[])
             }
         }
     }
-    
+
     if (keepRunning == CRYPTO_LIB_SUCCESS)
     {
         status = crypto_standalone_udp_init(&tm_process.read, TM_PROCESS_PORT, 1);

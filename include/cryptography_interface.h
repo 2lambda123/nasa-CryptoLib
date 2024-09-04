@@ -34,16 +34,16 @@ typedef struct
     int32_t (*cryptography_shutdown)(void);
     // Cryptography Interface Functions
     int32_t (*cryptography_encrypt)(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr,
-                                         uint8_t* iv, uint32_t iv_len,uint8_t* ecs, uint8_t padding, char* cam_cookies);
+                                    uint8_t* data_in, size_t len_data_in,
+                                    uint8_t* key, uint32_t len_key,
+                                    SecurityAssociation_t* sa_ptr,
+                                    uint8_t* iv, uint32_t iv_len,uint8_t* ecs, uint8_t padding, char* cam_cookies);
     int32_t (*cryptography_decrypt)(uint8_t* data_out, size_t len_data_out,
-                                         uint8_t* data_in, size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr, 
-                                         uint8_t* iv, uint32_t iv_len,
-                                         uint8_t* ecs, uint8_t* acs, char* cam_cookies);
+                                    uint8_t* data_in, size_t len_data_in,
+                                    uint8_t* key, uint32_t len_key,
+                                    SecurityAssociation_t* sa_ptr,
+                                    uint8_t* iv, uint32_t iv_len,
+                                    uint8_t* ecs, uint8_t* acs, char* cam_cookies);
     int32_t (*cryptography_authenticate)(uint8_t* data_out, size_t len_data_out,
                                          uint8_t* data_in, size_t len_data_in,
                                          uint8_t* key, uint32_t len_key,
@@ -53,13 +53,13 @@ typedef struct
                                          uint8_t* aad, uint32_t aad_len,
                                          uint8_t ecs, uint8_t acs, char* cam_cookies);
     int32_t (*cryptography_validate_authentication)(uint8_t* data_out, size_t len_data_out,
-                                         const uint8_t* data_in, const size_t len_data_in,
-                                         uint8_t* key, uint32_t len_key,
-                                         SecurityAssociation_t* sa_ptr,
-                                         const uint8_t* iv, uint32_t iv_len,
-                                         const uint8_t* mac, uint32_t mac_size,
-                                         const uint8_t* aad, uint32_t aad_len,
-                                         uint8_t ecs, uint8_t acs, char* cam_cookies);
+            const uint8_t* data_in, const size_t len_data_in,
+            uint8_t* key, uint32_t len_key,
+            SecurityAssociation_t* sa_ptr,
+            const uint8_t* iv, uint32_t iv_len,
+            const uint8_t* mac, uint32_t mac_size,
+            const uint8_t* aad, uint32_t aad_len,
+            uint8_t ecs, uint8_t acs, char* cam_cookies);
     int32_t (*cryptography_aead_encrypt)(uint8_t* data_out, size_t len_data_out,
                                          uint8_t* data_in, size_t len_data_in,
                                          uint8_t* key, uint32_t len_key,
@@ -80,7 +80,7 @@ typedef struct
                                          uint8_t aad_bool, uint8_t* ecs, uint8_t* acs, char* cam_cookies);
     int32_t (*cryptography_get_acs_algo)(int8_t algo_enum);
     int32_t (*cryptography_get_ecs_algo)(int8_t algo_enum);
-    
+
 
 } CryptographyInterfaceStruct, *CryptographyInterface;
 
