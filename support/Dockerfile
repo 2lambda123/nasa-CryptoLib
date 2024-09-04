@@ -1,7 +1,7 @@
 # CryptoLib Dockerfile
 #
 # Install latest docker from PPA: https://docs.docker.com/engine/install/ubuntu/
-# 
+#
 # Debugging
 #   docker build -t ivvitc/cryptolib:dev .
 #   docker run -it ivvitc/cryptolib:dev /bin/bash
@@ -14,7 +14,7 @@
 #
 # TODO:
 #   docker buildx build --platform linux/amd64,linux/arm64 -t ivvitc/cryptolib:dev --push .
-# 
+#
 
 ARG WOLFSSL_VERSION=5.6.0-stable
 FROM ubuntu:jammy-20240530 AS cl0
@@ -45,14 +45,14 @@ RUN apt-get update -y \
 FROM cl0 AS cl1
 ARG GPG_ERROR_VERSION=1.50
 ARG GCRYPT_VERSION=1.11.0
-RUN curl \ 
+RUN curl \
     -LS https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-${GPG_ERROR_VERSION}.tar.bz2 \
     -o /tmp/libgpg-error-${GPG_ERROR_VERSION}.tar.bz2 \
     && tar -xjf /tmp/libgpg-error-${GPG_ERROR_VERSION}.tar.bz2 -C /tmp/ \
     && cd /tmp/libgpg-error-${GPG_ERROR_VERSION} \
     && ./configure \
     && make install \
-    && curl \ 
+    && curl \
         -LS https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-${GCRYPT_VERSION}.tar.bz2 \
         -o /tmp/libgcrypt-${GCRYPT_VERSION}.tar.bz2 \
     && tar -xjf /tmp/libgcrypt-${GCRYPT_VERSION}.tar.bz2 -C /tmp/ \
@@ -73,4 +73,4 @@ RUN curl \
     && cmake -DWOLFSSL_AESCCM=yes -DWOLFSSL_AESSIV=yes -DWOLFSSL_CMAC=yes .. \
     && cmake --build . \
     && make install \
-    && ldconfig 
+    && ldconfig

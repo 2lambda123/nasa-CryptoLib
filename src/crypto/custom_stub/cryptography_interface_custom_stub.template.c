@@ -14,7 +14,4 @@
 
 #include "cryptography_interface.h"
 
-CryptographyInterface get_cryptography_interface_custom(void)
-{
-    return NULL;
-}
+CryptographyInterface get_cryptography_interface_custom(void) { return NULL; }
