@@ -1,15 +1,20 @@
 /* Copyright (C) 2009 - 2022 National Aeronautics and Space Administration.
    All Foreign Rights are Reserved to the U.S. Government.
 
-   This software is provided "as is" without any warranty of any kind, either expressed, implied, or statutory,
-   including, but not limited to, any warranty that the software will conform to specifications, any implied warranties
-   of merchantability, fitness for a particular purpose, and freedom from infringement, and any warranty that the
-   documentation will conform to the program, or any warranty that the software will be error free.
+   This software is provided "as is" without any warranty of any kind, either
+   expressed, implied, or statutory, including, but not limited to, any warranty
+   that the software will conform to specifications, any implied warranties of
+   merchantability, fitness for a particular purpose, and freedom from
+   infringement, and any warranty that the documentation will conform to the
+   program, or any warranty that the software will be error free.
 
-   In no event shall NASA be liable for any damages, including, but not limited to direct, indirect, special or
-   consequential damages, arising out of, resulting from, or in any way connected with the software or its
-   documentation, whether or not based upon warranty, contract, tort or otherwise, and whether or not loss was sustained
-   from, or arose out of the results of, or use of, the software, documentation or services provided hereunder.
+   In no event shall NASA be liable for any damages, including, but not limited
+   to direct, indirect, special or consequential damages, arising out of,
+   resulting from, or in any way connected with the software or its
+   documentation, whether or not based upon warranty, contract, tort or
+   otherwise, and whether or not loss was sustained from, or arose out of the
+   results of, or use of, the software, documentation or services provided
+   hereunder.
 
    ITC Team
    NASA IV&V
@@ -19,8 +24,10 @@
 #define CRYPTO_ERROR_H
 
 /*
- * If error codes are added to this header file, their enum string must be added to the error lists (in crypto_error.c)
- *  AND logic for returning the enum string must be added to crypto_error.c -- Crypto_Get_Error_Code_Enum_String(int32_t)
+ * If error codes are added to this header file, their enum string must be added
+ * to the error lists (in crypto_error.c) AND logic for returning the enum
+ * string must be added to crypto_error.c --
+ * Crypto_Get_Error_Code_Enum_String(int32_t)
  */
 
 #define CRYPTO_CONFIGURATION_NOT_COMPLETE 100
@@ -36,7 +43,7 @@
 #define SADB_QUERY_EMPTY_RESULTS 302
 #define SADB_INSERT_FAILED 303
 
-#define CRYPTOGRAPHY_INVALID_CRYPTO_INTERFACE_TYPE  400
+#define CRYPTOGRAPHY_INVALID_CRYPTO_INTERFACE_TYPE 400
 #define CRYPTOGRAPHY_UNSUPPORTED_OPERATION_FOR_KEY_RING 401
 #define CRYPTOGRAPHY_LIBRARY_INITIALIZIATION_ERROR 402
 
@@ -110,7 +117,8 @@
 #define CRYPTO_LIB_ERR_ARSN_LEN_SHORTER_THAN_SEC_HEADER_LENGTH (-38)
 #define CRYPTO_LIB_ERR_FRAME_COUNTER_DOESNT_MATCH_SA (-39)
 #define CRYPTO_LIB_ERR_INPUT_FRAME_TOO_SHORT_FOR_TC_STANDARD (-40)
-#define CRYPTO_LIB_ERR_INPUT_FRAME_LENGTH_SHORTER_THAN_FRAME_HEADERS_LENGTH (-41)
+#define CRYPTO_LIB_ERR_INPUT_FRAME_LENGTH_SHORTER_THAN_FRAME_HEADERS_LENGTH    \
+  (-41)
 #define CRYPTO_LIB_ERR_UNSUPPORTED_ECS_MODE (-42)
 #define CRYPTO_LIB_ERR_NULL_MODE_PTR (-43)
 #define CRYPTO_LIB_ERR_UNSUPPORTED_MODE (-44)
@@ -136,7 +144,6 @@ extern char *crypto_enum_errlist_crypto_if[];
 extern char *crypto_enum_errlist_crypto_kmc[];
 extern char *crypto_enum_errlist_crypto_cam[];
 
-#define CRYPTO_UNDEFINED_ERROR (char*) "CRYPTO_UNDEFINED_ERROR_CODE"
+#define CRYPTO_UNDEFINED_ERROR (char *)"CRYPTO_UNDEFINED_ERROR_CODE"
 
-
-#endif //CRYPTO_ERROR_H
+#endif // CRYPTO_ERROR_H
