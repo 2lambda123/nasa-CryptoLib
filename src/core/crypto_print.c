@@ -101,9 +101,9 @@ void Crypto_tmPrint(TM_t* tm_frame)
 /**
  * @brief Function: Crypto_clcwPrint
  * Prints the current CLCW in memory.
- * @param clcw: Telemetry_Frame_Clcw_t*
+ * @param clcw: Telemetry_Frame_Ocf_Clcw_t*
  **/
-void Crypto_clcwPrint(Telemetry_Frame_Clcw_t* clcw)
+void Crypto_clcwPrint(Telemetry_Frame_Ocf_Clcw_t* clcw)
 {
     printf("Current CLCW in memory is: \n");
     printf("\t cwt    = 0x%01x \n", clcw->cwt);
@@ -112,11 +112,11 @@ void Crypto_clcwPrint(Telemetry_Frame_Clcw_t* clcw)
     printf("\t cie    = 0x%01x \n", clcw->cie);
     printf("\t vci    = 0x%02x \n", clcw->vci);
     printf("\t spare0 = 0x%01x \n", clcw->spare0);
-    printf("\t nrfa   = 0x%01x \n", clcw->nrfa);
-    printf("\t nbl    = 0x%01x \n", clcw->nbl);
-    printf("\t lo     = 0x%01x \n", clcw->lo);
-    printf("\t wait   = 0x%01x \n", clcw->wait);
-    printf("\t rt     = 0x%01x \n", clcw->rt);
+    printf("\t nrfaf  = 0x%01x \n", clcw->nrfaf);
+    printf("\t nblf   = 0x%01x \n", clcw->nblf);
+    printf("\t lof    = 0x%01x \n", clcw->lof);
+    printf("\t waitf  = 0x%01x \n", clcw->waitf);
+    printf("\t rtf    = 0x%01x \n", clcw->rtf);
     printf("\t fbc    = 0x%01x \n", clcw->fbc);
     printf("\t spare1 = 0x%01x \n", clcw->spare1);
     printf("\t rv     = 0x%02x \n", clcw->rv);
@@ -126,18 +126,18 @@ void Crypto_clcwPrint(Telemetry_Frame_Clcw_t* clcw)
 /**
  * @brief Function: Crypto_fsrPrint
  * Prints the current FSR in memory.
- * @param report: SDLS_FSR_t*
+ * @param report: Telemetry_Frame_Ocf_Fsr_t*
  **/
-void Crypto_fsrPrint(SDLS_FSR_t* report)
+void Crypto_fsrPrint(Telemetry_Frame_Ocf_Fsr_t* report)
 {
     printf("Current FSR in memory is: \n");
     printf("\t cwt    = 0x%01x \n", report->cwt);
-    printf("\t vnum   = 0x%01x \n", report->vnum);
+    printf("\t fvn    = 0x%01x \n", report->fvn);
     printf("\t af     = 0x%01x \n", report->af);
     printf("\t bsnf   = 0x%01x \n", report->bsnf);
     printf("\t bmacf  = 0x%01x \n", report->bmacf);
-    printf("\t ispif  = 0x%01x \n", report->ispif);
-    printf("\t lspiu  = 0x%01x \n", report->lspiu);
+    printf("\t bsaf   = 0x%01x \n", report->bsaf);
+    printf("\t lspi   = 0x%01x \n", report->lspi);
     printf("\t snval  = 0x%01x \n", report->snval);
     printf("\n");
 }
@@ -212,7 +212,7 @@ void Crypto_saPrint(SecurityAssociation_t* sa)
     printf("\t ek_ref     = %s \n", sa->ek_ref);
     printf("\t akid       = %d \n", sa->akid);
     printf("\t ak_ref     = %s \n", sa->ak_ref);
-    printf("\t iv_len     = %d \n", sa->shivf_len);
+    printf("\t iv_len     = %d \n", sa->iv_len);
     if (sa->iv_len > 0)
     {
         for (i = 0; i < sa->iv_len; i++)
@@ -295,6 +295,7 @@ void Crypto_binprint(void* c, size_t n)
 void Crypto_mpPrint(GvcidManagedParameters_t* managed_parameters, uint8_t print_children)
 // Prints the currently configured Managed Parameters
 {
+    print_children = print_children;
     if (managed_parameters != NULL)
     {
         printf("Managed Parameter: \n");
@@ -306,9 +307,9 @@ void Crypto_mpPrint(GvcidManagedParameters_t* managed_parameters, uint8_t print_
         printf("\t max_frame_size: %d\n", managed_parameters->max_frame_size);
         printf("\t TM has ocf %d\n", managed_parameters->has_ocf);
     }
-    if (managed_parameters->next != NULL && print_children != 0)
-    {
-        Crypto_mpPrint(managed_parameters->next, print_children);
-    }
+    // if (managed_parameters->next != NULL && print_children != 0)
+    // {
+    //     Crypto_mpPrint(managed_parameters->next, print_children);
+    // }
 }
 #endif

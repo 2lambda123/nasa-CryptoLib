@@ -20,13 +20,14 @@
 #define CRYPTO_STRUCTS_H
 
 #include "crypto_config.h"
+#include <stdio.h>
 
 #ifdef NOS3 // NOS3/cFS build is ready
 #include "common_types.h"
 #else // Assume build outside of NOS3/cFS infrastructure
 #include <stdint.h>
-#ifndef KMC_CFFI_EXCLUDE // Exclude libraries that CFFI parser can’t process
 #include <stdio.h>
+#ifndef KMC_CFFI_EXCLUDE // Exclude libraries that CFFI parser can’t process
 #include <stdlib.h>
 #endif
 #endif
@@ -52,8 +53,8 @@ typedef struct
     uint16_t spi;  // Security Parameter Index
     uint16_t ekid; // Encryption Key ID  (Used with numerically indexed keystores, EG inmemory keyring)
     uint16_t akid; // Authentication Key ID
-    char*    ek_ref; // Encryption Key Reference (Used with string-referenced keystores,EG-PKCS12 keystores, KMC crypto)
-    char*    ak_ref; // Authentication Key Reference (Used with string-referenced keystores,EG-PKCS12 keystores, KMC crypto)
+    char ek_ref[REF_SIZE]; // Encryption Key Reference (Used with string-referenced keystores,EG-PKCS12 keystores, KMC crypto)
+    char ak_ref[REF_SIZE]; // Authentication Key Reference (Used with string-referenced keystores,EG-PKCS12 keystores, KMC crypto)
     uint8_t sa_state : 2;
     crypto_gvcid_t gvcid_blk;
     // crypto_gvcid_t gvcid_tm_blk[NUM_GVCID];
@@ -85,18 +86,18 @@ typedef struct
 /*
 ** SDLS Definitions
 */
-typedef struct
-{
-    uint8_t cwt : 1;     // Control Word Type
-    uint8_t vnum : 3;    // FSR Version Number
-    uint8_t af : 1;      // Alarm Field
-    uint8_t bsnf : 1;    // Bad SN Flag
-    uint8_t bmacf : 1;   // Bad MAC Flag
-    uint8_t ispif : 1;   // Invalid SPI Flag
-    uint16_t lspiu : 16; // Last SPI Used
-    uint8_t snval : 8;   // SN Value (LSB)
-} SDLS_FSR_t;
-#define SDLS_FSR_SIZE (sizeof(SDLS_FSR_t))
+// typedef struct
+// {
+//     uint8_t cwt : 1;     // Control Word Type
+//     uint8_t vnum : 3;    // FSR Version Number
+//     uint8_t af : 1;      // Alarm Field
+//     uint8_t bsnf : 1;    // Bad SN Flag
+//     uint8_t bmacf : 1;   // Bad MAC Flag
+//     uint8_t bsaf : 1;   // Bad SA Flag
+//     uint16_t lspiu : 16; // Last SPI Used
+//     uint8_t snval : 8;   // SN Value (LSB)
+// } SDLS_FSR_t; // Version 100, CCSDS 355.1-B-1, Feb 2020
+// #define SDLS_FSR_SIZE (sizeof(SDLS_FSR_t))
 
 typedef struct
 {
@@ -329,13 +330,14 @@ typedef struct
 #define CCSDS_SIZE (sizeof(CCSDS_t))
 
 /*
-** Operational Control Field definition
+** Operational Control Field definitions
 ** Telemetry frames can reply with either of these in their OCF field:
 ** 1) A Communications Control Link Word -or- 
 ** 2) A Frame Security Report
 */
 
 // INFO: This is the Communications Link Control Word register format
+// Ref: Version 000, CCSDS 232.0-B-4, Oct 2021
 typedef struct
 {
     uint8_t cwt : 1;    // Control Word Type "0"
@@ -343,33 +345,34 @@ typedef struct
     uint8_t sf : 3;     // Status Field
     uint8_t cie : 2;    // COP In Effect
     uint8_t vci : 6;    // Virtual Channel Identification
-    uint8_t spare0 : 2; // Reserved Spare
-    uint8_t nrfa : 1;   // No RF Avaliable Flag
-    uint8_t nbl : 1;    // No Bit Lock Flag
-    uint8_t lo : 1;     // Lock-Out Flag
-    uint8_t wait : 1;   // Wait Flag
-    uint8_t rt : 1;     // Retransmit Flag
+    uint8_t spare0 : 2; // Reserved Spare "00"
+    uint8_t nrfaf : 1;   // No RF Avaliable Flag
+    uint8_t nblf : 1;    // No Bit Lock Flag
+    uint8_t lof : 1;     // Lock-Out Flag
+    uint8_t waitf : 1;   // Wait Flag
+    uint8_t rtf : 1;     // Retransmit Flag
     uint8_t fbc : 2;    // FARM-B Counter
-    uint8_t spare1 : 1; // Reserved Spare
+    uint8_t spare1 : 1; // Reserved Spare "0"
     uint8_t rv : 8;     // Report Value
-} Telemetry_Frame_Clcw_t;
+} Telemetry_Frame_Ocf_Clcw_t;
 
-#define TM_FRAME_CLCW_SIZE (sizeof(Telemetry_Frame_Clcw_t))
+#define TELEMETRY_FRAME_OCF_CLCW_SIZE (sizeof(Telemetry_Frame_Ocf_Clcw_t))
 
 // INFO: This is the Frame Security Report register format
+// Ref: Version 100, CCSDS 355.1-B-1, Feb 2020
 typedef struct
 {
     uint8_t cwt : 1;    // Control Word Type "1"
     uint8_t fvn : 3;    // FSR Version Number "100"
     uint8_t af : 1;     // Alarm Flag
     uint8_t bsnf : 1;   // Bad Sequence Number Flag
-    uint8_t bmf : 1;    // Bad Mac Flag
+    uint8_t bmacf : 1;  // Bad Mac Flag
     uint8_t bsaf : 1;   // Bad Security Association Flag
     uint16_t lspi : 16; // Last SPI Used
-    uint8_t snv : 8;    // Sequence Number Value (LSB)
-} Telemetry_Frame_Fsr_t;
+    uint8_t snval : 8;  // Sequence Number Value (LSB)
+} Telemetry_Frame_Ocf_Fsr_t;
 
-#define TELEMETRY_FRAME_OCF_SIZE (sizeof(Telemetry_Frame_Fsr_t))
+#define TELEMETRY_FRAME_OCF_FSR_SIZE (sizeof(Telemetry_Frame_Ocf_Fsr_t))
 
 /*
 ** Telemetry (TM) Definitions

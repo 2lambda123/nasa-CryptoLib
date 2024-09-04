@@ -209,10 +209,6 @@ int32_t Crypto_SA_readARSN(uint8_t* ingest)
     { // Set IV - authenticated encryption
         for (x = 0; x < sa_ptr->shivf_len - 1; x++)
         {
-            if(sa_ptr->iv == NULL)
-            {
-                return CRYPTO_LIB_ERROR;
-            }
             ingest[count++] = *(sa_ptr->iv + x);
         }
 
@@ -255,6 +251,6 @@ int32_t Crypto_MC_resetalarm(void)
     report.af = 0;
     report.bsnf = 0;
     report.bmacf = 0;
-    report.ispif = 0;
+    report.bsaf = 0;
     return CRYPTO_LIB_SUCCESS;
 }
